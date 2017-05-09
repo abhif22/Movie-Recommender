@@ -1,0 +1,29 @@
+<% include templates/header.ejs %>
+<div class="logo">
+</div>
+<% if(errors){%>
+    <div class="container" style="margin-left:40%;">
+        <div class="row">
+            <div class="col-md-3">
+                <% for(i=0;i<errors.length;i++){%>
+                    <div class="alert alert-danger" role="alert">
+                      <strong><%= errors[i].param%>:<%= errors[i].msg%></strong>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+<%}%>
+<div class="login-block">
+    <h1>Sign Up</h1>
+    <form method="POST">
+    <input type="text" placeholder="Full Name" name="name">
+    <input type="text" value="" placeholder="Username" id="username" name="username"/>
+    <input type="email" placeholder="Email Address" name="email">
+    <input type="password" value="" placeholder="Password" id="password" name="password1" />
+    <input type="password" value="" placeholder="Confirm Password" id="password" name="password2" />
+    <input type="date" value="" placeholder="Date of Birth" name="dob">
+    <button type="submit">Sign Up</button>
+    </form>
+</div>
+<% include templates/footer.ejs %>
