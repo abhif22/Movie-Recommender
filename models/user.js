@@ -4,35 +4,45 @@ var bcrypt = require('bcrypt')
 var Schema = mongoose.Schema
 
 var userSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
-  }},{
-  timestamps: true
-})
+      local: {
+          username: {
+            type: String,
+            required: true,
+            unique: true
+          },
+          email: {
+            type: String,
+            required: true,
+            unique: true
+          },
+          name: {
+            type: String,
+            required: true
+          },
+          password: {
+            type: String,
+            required: true
+          },
+          city: String,
+          country: String,
+          dob: Date
+      },
+      facebook: {
+        id: String,
+        token: String,
+        email: String,
+        name: String
+      }
+    })
 
 var User = mongoose.model('User',userSchema)
 module.exports = User
 
 module.exports.createUser = (newUser, callback)=>{
   bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(newUser.password, salt, function(err, hash) {
+    bcrypt.hash(newUser.local.password, salt, function(err, hash) {
         // Store hash in your password DB. 
-        newUser.password = hash
+        newUser.local.password = hash
         console.log(hash)
         newUser.save(callback)
     });
@@ -40,7 +50,7 @@ module.exports.createUser = (newUser, callback)=>{
 }
 
 module.exports.getUserByUsername = (username, callback)=>{
-  User.findOne({username: username}, callback)
+  User.findOne({'local.username': username}, callback)
 }
 
 module.exports.getUserById = (id, callback)=>{

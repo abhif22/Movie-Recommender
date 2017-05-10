@@ -14,3 +14,22 @@
             </div>
     <% } %>
     <% } %>
+
+User.getUserByUsername(username,(err, existingUser)=>{
+			if(err)
+				throw err
+			if(existingUser){
+				req.flash('error_msg', 'UserName not Available')
+				return res.redirect('/users/register')
+			}
+			else{
+				User.createUser(newUser,(err,user)=>{
+					if(err)
+						throw err;
+					console.log(user)
+					req.flash('success_msg','You are Now Registered. Login Now')
+					return res.redirect('/users/login')
+				})
+			}
+		})
+

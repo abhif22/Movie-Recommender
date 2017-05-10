@@ -17,12 +17,16 @@ router.post('/register',(req,res)=>{
 		password1 = req.body.password1,
 		password2 = req.body.password2,
 		dob = req.body.dob
+		city = req.body.city
+		country = req.body.country
 	console.log(name)
 	console.log(username)
 	console.log(email)
 	console.log(password1)
 	console.log(password2)
 	console.log(dob)
+	console.log(city)
+	console.log(country)
 
 	req.checkBody('name','Name is Required').notEmpty()
 	req.checkBody('email','Email Address is Required').notEmpty()
@@ -41,29 +45,47 @@ router.post('/register',(req,res)=>{
 	else{
 		console.log('NO ERORRS!')
 		var newUser = new User({
-			name: name,
-			email: email,
-			password: password1,
-			username: username
-		})
+			local: {
+					name: name,
+					email: email,
+					password: password1,
+					username: username,
+					city: city,
+					country: country,
+					dob: dob
+					},
+			facebook: {
 
-		User.createUser(newUser,(err,user)=>{
+			}
+		})
+		User.getUserByUsername(username,(err, existingUser)=>{
 			if(err)
-				throw err;
-			console.log(user)
-			req.flash('success_msg','You are Now Registered. Login Now')
-			return res.redirect('/users/login')
+				throw err
+			if(existingUser){
+				req.flash('error_msg', 'UserName not Available')
+				return res.redirect('/users/register')
+			}
+			else{
+				User.createUser(newUser,(err,user)=>{
+					if(err)
+						throw err;
+					console.log(user)
+					req.flash('success_msg','You are Now Registered. Login Now')
+					return res.redirect('/users/login')
+				})
+			}
 		})
 	}
 })
 
 passport.use(new LocalStrategy((username, password, done)=>{
+	console.log('UserName '+username+'\t'+'Password '+password)
 	User.getUserByUsername(username,(err, user)=>{
 		if(err)
 			throw(err)
 		if(!user)
 			return done(null, false, {message: 'Incorrect Username'})
-		User.comparePassword(password, user.password, (err, isMatch)=>{
+		User.comparePassword(password, user.local.password, (err, isMatch)=>{
 			if(err)
 				throw err
 			if(isMatch)
@@ -99,7 +121,5 @@ router.get('/logout',(req,res)=>{
 	req.flash('success_msg','Successfully Logged Out!')
 	return res.redirect('/users/login')
 })
-
-
 
 module.exports = router;

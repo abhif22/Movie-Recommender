@@ -1,4 +1,4 @@
-
+    
     var express = require('express')
     var app = express()
     var path = require('path')
@@ -16,6 +16,7 @@
 
     var users = require('./Routes/users')
     var routes = require('./Routes/index')
+    var facebookLogin = require('./Routes/facebook-route.js')
 
    
 
@@ -79,6 +80,7 @@
 
     app.use('/',routes)
     app.use('/users',users)
+    app.use('/',facebookLogin)
 
     var port = process.env.PORT || 8080;
     app.set('port', port)
