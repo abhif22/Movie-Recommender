@@ -1,0 +1,829 @@
+User Name: abhif18
+Password: up6971bz
+NOTE THAT JSON FROM TMDB ID REQUEST HAS IMDB ID ALSO
+* To Authenticate via Token
+	https://www.themoviedb.org/authenticate/{eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNjhlM2Y1OWY5M2Y1YzJhYTY3MjYyZTllOWYzZGI3MyIsInN1YiI6IjU4ZTI4YjZiOTI1MTQxMjgzNTAwZjY1YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Vc4EQIMB_7dcJuQkkMOM4rpWnY-nuy7_yha2cWGUARw}?redirect_to=https://www.themoviedb.org
+
+* To Get movie details using TMDB ID
+	https://api.themoviedb.org/3/movie/168259?api_key=068e3f59f93f5c2aa67262e9e9f3db73
+   Response:
+   {
+   "adult":false,
+   "backdrop_path":"/5pAGnkFYSsFJ99ZxDIYnhQbQFXs.jpg",
+   "belongs_to_collection":{
+      "id":748,
+      "name":"X-Men Collection",
+      "poster_path":"/1Zo4J5SAni8lyXt7NxJwJZ0f0ip.jpg",
+      "backdrop_path":"/Abnosho2v3bcdvDww6T7Hfeczm1.jpg"
+   },
+   "budget":97000000,
+   "genres":[
+      {
+         "id":28,
+         "name":"Action"
+      },
+      {
+         "id":18,
+         "name":"Drama"
+      },
+      {
+         "id":878,
+         "name":"Science Fiction"
+      }
+   ],
+   "homepage":"http://www.foxmovies.com/movies/logan",
+   "id":263115,
+   "imdb_id":"tt3315342",
+   "original_language":"en",
+   "original_title":"Logan",
+   "overview":"In the near future, a weary Logan cares for an ailing Professor X in a hide out on the Mexican border. But Logan's attempts to hide from the world and his legacy are up-ended when a young mutant arrives, being pursued by dark forces.",
+   "popularity":116.369877,
+   "poster_path":"/45Y1G5FEgttPAwjTYic6czC9xCn.jpg",
+   "production_companies":[
+      {
+         "name":"Twentieth Century Fox Film Corporation",
+         "id":306
+      },
+      {
+         "name":"Donners' Company",
+         "id":431
+      },
+      {
+         "name":"Marvel Entertainment",
+         "id":7505
+      },
+      {
+         "name":"TSG Entertainment",
+         "id":22213
+      }
+   ],
+   "production_countries":[
+      {
+         "iso_3166_1":"US",
+         "name":"United States of America"
+      }
+   ],
+   "release_date":"2017-02-28",
+   "revenue":585551399,
+   "runtime":141,
+   "spoken_languages":[
+      {
+         "iso_639_1":"en",
+         "name":"English"
+      }
+   ],
+   "status":"Released",
+   "tagline":"His Time Has Come",
+   "title":"Logan",
+   "video":false,
+   "vote_average":7.6,
+   "vote_count":2078
+}
+
+* To get Movie Reviews by TMDB ID
+	https://api.themoviedb.org/3/movie/168259/reviews?api_key=068e3f59f93f5c2aa67262e9e9f3db73
+
+* To get Poster
+	http://image.tmdb.org/t/p/original//ypyeMfKydpyuuTMdp36rMlkGDUL.jpg
+
+* To get TMDB recommendations for a particular movie
+	https://api.themoviedb.org/3/movie/168259/recommendations?api_key=068e3f59f93f5c2aa67262e9e9f3db73
+
+* To search by external id like IMDB ID
+	https://api.themoviedb.org/3/find/tt2820852?api_key=068e3f59f93f5c2aa67262e9e9f3db73&language=en-US&external_source=imdb_id 
+	The response is
+
+	{
+   "movie_results":[
+      {
+         "adult":false,
+         "backdrop_path":"/ypyeMfKydpyuuTMdp36rMlkGDUL.jpg",
+         "genre_ids":[
+            28
+         ],
+         "id":168259,
+         "original_language":"en",
+         "original_title":"Furious 7",
+         "overview":"Deckard Shaw seeks revenge against Dominic Toretto and his family for his comatose brother.",
+         "release_date":"2015-04-01",
+         "poster_path":"/dCgm7efXDmiABSdWDHBDBx2jwmn.jpg",
+         "popularity":10.548162,
+         "title":"Furious 7",
+         "video":false,
+         "vote_average":7.3,
+         "vote_count":3314
+      }
+   ],
+   "person_results":[
+
+   ],
+   "tv_results":[
+
+   ],
+   "tv_episode_results":[
+
+   ],
+   "tv_season_results":[
+
+   ]
+}
+	Store the above object in a variable say detail
+	After this do the following
+
+	https://api.themoviedb.org/3/movie/"+detail["movie_results"][0]['id']+"?api_key=068e3f59f93f5c2aa67262e9e9f3db73
+
+* To get Upcoming Movies
+   http://api.themoviedb.org/3/movie/upcoming?api_key=068e3f59f93f5c2aa67262e9e9f3db73
+
+* To get cast and crew of a movie
+   http://api.themoviedb.org/3/movie/49521/casts?api_key=068e3f59f93f5c2aa67262e9e9f3db73
+   The Following is the response
+
+   {
+   "id":49521,
+   "cast":[
+      {
+         "cast_id":2,
+         "character":"Clark Kent / Kal-El",
+         "credit_id":"52fe4799c3a36847f813e605",
+         "id":73968,
+         "name":"Henry Cavill",
+         "order":0,
+         "profile_path":"/ep1MrEHNuCOWRgyn57I8smnNcTn.jpg"
+      },
+      {
+         "cast_id":3,
+         "character":"Lois Lane",
+         "credit_id":"52fe4799c3a36847f813e609",
+         "id":9273,
+         "name":"Amy Adams",
+         "order":1,
+         "profile_path":"/tk5eWJcOBr9uRefeUm9ntvehbLA.jpg"
+      },
+      {
+         "cast_id":9,
+         "character":"General Zod",
+         "credit_id":"52fe4799c3a36847f813e61b",
+         "id":335,
+         "name":"Michael Shannon",
+         "order":2,
+         "profile_path":"/5yGCJ6znHM96zTfW2LNP6uPPDCZ.jpg"
+      },
+      {
+         "cast_id":10,
+         "character":"Jonathan Kent",
+         "credit_id":"52fe4799c3a36847f813e61f",
+         "id":1269,
+         "name":"Kevin Costner",
+         "order":3,
+         "profile_path":"/ePo87kGyyY8JZ3z7Zm7Z2GYdmJ8.jpg"
+      },
+      {
+         "cast_id":4,
+         "character":"Martha Kent",
+         "credit_id":"52fe4799c3a36847f813e60d",
+         "id":2882,
+         "name":"Diane Lane",
+         "order":4,
+         "profile_path":"/lAsVLA16pQ8DH7lzwFyIV4ZIlQ8.jpg"
+      },
+      {
+         "cast_id":8,
+         "character":"Jor-El",
+         "credit_id":"52fe4799c3a36847f813e617",
+         "id":934,
+         "name":"Russell Crowe",
+         "order":5,
+         "profile_path":"/ktuOAyUHM2u2YPPChH8gAArxJ7b.jpg"
+      },
+      {
+         "cast_id":12,
+         "character":"Perry White",
+         "credit_id":"52fe4799c3a36847f813e627",
+         "id":2975,
+         "name":"Laurence Fishburne",
+         "order":6,
+         "profile_path":"/mh0lZ1XsT84FayMNiT6Erh91mVu.jpg"
+      },
+      {
+         "cast_id":17,
+         "character":"Faora-Ul",
+         "credit_id":"52fe4799c3a36847f813e637",
+         "id":43202,
+         "name":"Antje Traue",
+         "order":7,
+         "profile_path":"/lfTT2EXXXYz9xPdq4dZakJWNC25.jpg"
+      },
+      {
+         "cast_id":11,
+         "character":"Colonel Hardy",
+         "credit_id":"52fe4799c3a36847f813e623",
+         "id":22227,
+         "name":"Christopher Meloni",
+         "order":8,
+         "profile_path":"/qUxRtuQxWcuaUitnKoTyKgeIitu.jpg"
+      },
+      {
+         "cast_id":13,
+         "character":"Lana Lang",
+         "credit_id":"52fe4799c3a36847f813e62b",
+         "id":213049,
+         "name":"Jadin Gould",
+         "order":9,
+         "profile_path":"/xC07rBx6DTXzclGMy7fOzYM2Q6S.jpg"
+      },
+      {
+         "cast_id":15,
+         "character":"Emerson",
+         "credit_id":"52fe4799c3a36847f813e62f",
+         "id":77223,
+         "name":"Tahmoh Penikett",
+         "order":10,
+         "profile_path":"/uHnfPSFXdJJTaE0rjwj3I2b91I8.jpg"
+      },
+      {
+         "cast_id":16,
+         "character":"Lara Lor-Van",
+         "credit_id":"52fe4799c3a36847f813e633",
+         "id":8786,
+         "name":"Ayelet Zurer",
+         "order":11,
+         "profile_path":"/mrj36B6kZtE6jE6oNKEMperxBhW.jpg"
+      },
+      {
+         "cast_id":18,
+         "character":"Dr. Emil Hamilton",
+         "credit_id":"52fe4799c3a36847f813e63b",
+         "id":31028,
+         "name":"Richard Schiff",
+         "order":12,
+         "profile_path":"/gHFxL7MIGvmcbg5hhTNrbjIttQN.jpg"
+      },
+      {
+         "cast_id":19,
+         "character":"Clark Kent at 13",
+         "credit_id":"52fe4799c3a36847f813e63f",
+         "id":236302,
+         "name":"Dylan Sprayberry",
+         "order":13,
+         "profile_path":"/pBVSPaXOFZqhwt2COhkLaOq9MSW.jpg"
+      },
+      {
+         "cast_id":20,
+         "character":"Steve Lombard",
+         "credit_id":"52fe4799c3a36847f813e643",
+         "id":50217,
+         "name":"Michael Kelly",
+         "order":14,
+         "profile_path":"/iivECyPFmK7SeT3iBtmOgz3n3M7.jpg"
+      },
+      {
+         "cast_id":54,
+         "character":"Kelor (voice)",
+         "credit_id":"52fe4799c3a36847f813e70d",
+         "id":17832,
+         "name":"Carla Gugino",
+         "order":15,
+         "profile_path":"/xddYLCp8zWLgYcQRck7REEgCUWl.jpg"
+      },
+      {
+         "cast_id":55,
+         "character":"Tor-An",
+         "credit_id":"52fe4799c3a36847f813e711",
+         "id":12371,
+         "name":"Richard Cetrone",
+         "order":16,
+         "profile_path":"/63LiC0atGVnNUUaEu86tce2il8Z.jpg"
+      },
+      {
+         "cast_id":56,
+         "character":"Jax-Ur",
+         "credit_id":"52fe4799c3a36847f813e715",
+         "id":37698,
+         "name":"Mackenzie Gray",
+         "order":17,
+         "profile_path":"/rYkz9NRfhVzgDbpXHRWqLkvjlgh.jpg"
+      },
+      {
+         "cast_id":57,
+         "character":"Lor-Em",
+         "credit_id":"52fe4799c3a36847f813e719",
+         "id":2320,
+         "name":"Julian Richings",
+         "order":18,
+         "profile_path":"/bbVRUCBwztY0mUzXdAmMgHocNSU.jpg"
+      },
+      {
+         "cast_id":58,
+         "character":"Ro-Zar",
+         "credit_id":"52fe4799c3a36847f813e71d",
+         "id":11831,
+         "name":"Mary Black",
+         "order":19,
+         "profile_path":"/q7gftvbA1cgwldgcEabf1wXBAkj.jpg"
+      },
+      {
+         "cast_id":59,
+         "character":"Car-Vex",
+         "credit_id":"52fe4799c3a36847f813e721",
+         "id":1272968,
+         "name":"Samantha Jo",
+         "order":20,
+         "profile_path":"/aHUB2vNo5ZbOVnlmqJ4SkUpDXrk.jpg"
+      },
+      {
+         "cast_id":60,
+         "character":"Jenny",
+         "credit_id":"52fe4799c3a36847f813e725",
+         "id":1272969,
+         "name":"Rebecca Buller",
+         "order":21,
+         "profile_path":"/2e4eLghYs2jXxnoy4gG0TOSsyVA.jpg"
+      },
+      {
+         "cast_id":61,
+         "character":"Major Carrie Farris",
+         "credit_id":"52fe4799c3a36847f813e729",
+         "id":1272970,
+         "name":"Christina Wren",
+         "order":22,
+         "profile_path":"/8nLwMjNuL9FU9lVGXZBBZpMWLGk.jpg"
+      },
+      {
+         "cast_id":72,
+         "character":"Major Laramore",
+         "credit_id":"5543457bc3a3680cdf001855",
+         "id":4095,
+         "name":"David Lewis",
+         "order":23,
+         "profile_path":"/7vavqcvwCNwHChOaZgISst0cJbV.jpg"
+      },
+      {
+         "cast_id":63,
+         "character":"Heraldson",
+         "credit_id":"52fe4799c3a36847f813e731",
+         "id":27138,
+         "name":"Doug Abrahams",
+         "order":24,
+         "profile_path":"/l1WXHzijnXtsZs5xcPk3yVLURgX.jpg"
+      },
+      {
+         "cast_id":64,
+         "character":"Byrne",
+         "credit_id":"52fe4799c3a36847f813e735",
+         "id":172809,
+         "name":"Brad Kelly",
+         "order":25,
+         "profile_path":"/wNZGxPawhdulAVq5Ud4m7mAwmrk.jpg"
+      },
+      {
+         "cast_id":65,
+         "character":"Officer Sekowsky",
+         "credit_id":"52fe4799c3a36847f813e739",
+         "id":59312,
+         "name":"Alessandro Juliani",
+         "order":26,
+         "profile_path":"/eTF7C0HA5M31J9gvoupyPt3sedX.jpg"
+      },
+      {
+         "cast_id":66,
+         "character":"Teenage Pete Ross",
+         "credit_id":"52fe4799c3a36847f813e73d",
+         "id":1272971,
+         "name":"Jack Foley",
+         "order":27,
+         "profile_path":"/cCoJMPYTALWvrlpzpAFcEFAqsh0.jpg"
+      },
+      {
+         "cast_id":67,
+         "character":"Whitney Fordman",
+         "credit_id":"52fe4799c3a36847f813e741",
+         "id":1025970,
+         "name":"Robert Gerdisch",
+         "order":28,
+         "profile_path":"/lDyXyHQcRK21hcSO8oEJqlmvKQG.jpg"
+      },
+      {
+         "cast_id":75,
+         "character":"General Swanwick",
+         "credit_id":"55dc8afe92514174590000f9",
+         "id":9464,
+         "name":"Harry Lennix",
+         "order":29,
+         "profile_path":"/uwpRytLjzz1IvjNanYNlplPVal9.jpg"
+      },
+      {
+         "cast_id":79,
+         "character":"Student",
+         "credit_id":"56abb5f69251413e95002cde",
+         "id":1371141,
+         "name":"Jacqueline Scislowski",
+         "order":30,
+         "profile_path":"/ilK0dkfsYaRXiBEE5fEFuXxi80D.jpg"
+      },
+      {
+         "cast_id":83,
+         "character":"Bar Buddy",
+         "credit_id":"57990e37c3a3682bec002634",
+         "id":1235591,
+         "name":"Sean Campbell",
+         "order":31,
+         "profile_path":"/jZUwhQcncXpg5czrRByW1pShzDc.jpg"
+      },
+      {
+         "cast_id":81,
+         "character":"Rubble Survivor (uncredited)",
+         "credit_id":"572b428a92514106f7002795",
+         "id":1615574,
+         "name":"Raj Lal",
+         "order":32,
+         "profile_path":"/scvDlYBAFdW8SAIHePbhtyQxNBQ.jpg"
+      }
+   ],
+   "crew":[
+      {
+         "credit_id":"52fe4799c3a36847f813e601",
+         "department":"Directing",
+         "id":15217,
+         "job":"Director",
+         "name":"Zack Snyder",
+         "profile_path":"/tlFsY1Ddv6d8JyftIKE3L71PD7g.jpg"
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e613",
+         "department":"Production",
+         "id":525,
+         "job":"Producer",
+         "name":"Christopher Nolan",
+         "profile_path":"/7OGmfDF4VHLLgbjxuEwTj3ga0uQ.jpg"
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e649",
+         "department":"Writing",
+         "id":3893,
+         "job":"Screenplay",
+         "name":"David S. Goyer",
+         "profile_path":"/vh0ULL0N22JlVlQ5mXFmreA6Ubz.jpg"
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e64f",
+         "department":"Writing",
+         "id":3893,
+         "job":"Story",
+         "name":"David S. Goyer",
+         "profile_path":"/vh0ULL0N22JlVlQ5mXFmreA6Ubz.jpg"
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e655",
+         "department":"Writing",
+         "id":525,
+         "job":"Story",
+         "name":"Christopher Nolan",
+         "profile_path":"/7OGmfDF4VHLLgbjxuEwTj3ga0uQ.jpg"
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e65b",
+         "department":"Writing",
+         "id":20008,
+         "job":"Characters",
+         "name":"Joe Shuster",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e661",
+         "department":"Writing",
+         "id":20007,
+         "job":"Characters",
+         "name":"Jerry Siegel",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e667",
+         "department":"Sound",
+         "id":947,
+         "job":"Original Music Composer",
+         "name":"Hans Zimmer",
+         "profile_path":"/wugKWf9vuqZYuHCk5Wwec6355TM.jpg"
+      },
+      {
+         "credit_id":"553bf15ac3a3685cf8005ea7",
+         "department":"Production",
+         "id":79242,
+         "job":"Co-Producer",
+         "name":"Wesley Coller",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e673",
+         "department":"Production",
+         "id":3805,
+         "job":"Executive Producer",
+         "name":"Jon Peters",
+         "profile_path":"/g7QUavX05hDboodZulsFF65AVjN.jpg"
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e679",
+         "department":"Production",
+         "id":286,
+         "job":"Executive Producer",
+         "name":"Lloyd Phillips",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e67f",
+         "department":"Production",
+         "id":282,
+         "job":"Producer",
+         "name":"Charles Roven",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e685",
+         "department":"Production",
+         "id":79243,
+         "job":"Producer",
+         "name":"Deborah Snyder",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e68b",
+         "department":"Production",
+         "id":556,
+         "job":"Producer",
+         "name":"Emma Thomas",
+         "profile_path":"/f12TsNlAEomPdwxueS7ImMoJtsP.jpg"
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e691",
+         "department":"Production",
+         "id":54211,
+         "job":"Executive Producer",
+         "name":"Thomas Tull",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e697",
+         "department":"Camera",
+         "id":1043831,
+         "job":"Director of Photography",
+         "name":"Amir Mokri",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e69d",
+         "department":"Editing",
+         "id":6051,
+         "job":"Editor",
+         "name":"David Brenner",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6a3",
+         "department":"Production",
+         "id":17610,
+         "job":"Casting",
+         "name":"Kristy Carlson",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6af",
+         "department":"Production",
+         "id":2953,
+         "job":"Casting",
+         "name":"Lora Kennedy",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6b5",
+         "department":"Art",
+         "id":1303,
+         "job":"Production Design",
+         "name":"Alex McDowell",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6bb",
+         "department":"Art",
+         "id":8706,
+         "job":"Set Decoration",
+         "name":"Anne Kuljian",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6c1",
+         "department":"Art",
+         "id":1182906,
+         "job":"Art Direction",
+         "name":"Vlad Bina",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6c7",
+         "department":"Art",
+         "id":60222,
+         "job":"Art Direction",
+         "name":"Chris Farmer",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6cd",
+         "department":"Art",
+         "id":1182907,
+         "job":"Art Direction",
+         "name":"Aaron Haye",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6d3",
+         "department":"Art",
+         "id":61177,
+         "job":"Art Direction",
+         "name":"Dan Hermansen",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6d9",
+         "department":"Art",
+         "id":86591,
+         "job":"Art Direction",
+         "name":"Craig Jackson",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6df",
+         "department":"Art",
+         "id":22061,
+         "job":"Art Direction",
+         "name":"Helen Jarvis",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6e5",
+         "department":"Art",
+         "id":12653,
+         "job":"Art Direction",
+         "name":"Kim Sinclair",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6eb",
+         "department":"Costume & Make-Up",
+         "id":11386,
+         "job":"Costume Design",
+         "name":"James Acheson",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6f1",
+         "department":"Costume & Make-Up",
+         "id":5392,
+         "job":"Costume Design",
+         "name":"Michael Wilkinson",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e6fd",
+         "department":"Costume & Make-Up",
+         "id":1182908,
+         "job":"Hairstylist",
+         "name":"Diana Acrey",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e703",
+         "department":"Costume & Make-Up",
+         "id":1182909,
+         "job":"Hair Setup",
+         "name":"Anji Bemben",
+         "profile_path":null
+      },
+      {
+         "credit_id":"52fe4799c3a36847f813e709",
+         "department":"Costume & Make-Up",
+         "id":1182910,
+         "job":"Hair Setup",
+         "name":"John JayBee Bivins",
+         "profile_path":null
+      },
+      {
+         "credit_id":"5523f0c19251414752001d9b",
+         "department":"Visual Effects",
+         "id":1355894,
+         "job":"Visual Effects",
+         "name":"Anthony Di Ninno",
+         "profile_path":null
+      },
+      {
+         "credit_id":"553bf1829251416874003cba",
+         "department":"Production",
+         "id":1459033,
+         "job":"Associate Producer",
+         "name":"Curt Kanemoto",
+         "profile_path":null
+      },
+      {
+         "credit_id":"5549160c92514104be000245",
+         "department":"Crew",
+         "id":1463185,
+         "job":"Compositors",
+         "name":"Elizabeth McClurg",
+         "profile_path":null
+      },
+      {
+         "credit_id":"554bbb97c3a3685e580029b3",
+         "department":"Crew",
+         "id":1460590,
+         "job":"Special Effects",
+         "name":"Dan Youngs",
+         "profile_path":null
+      },
+      {
+         "credit_id":"5829dccec3a3683608034ab2",
+         "department":"Production",
+         "id":1486960,
+         "job":"Casting",
+         "name":"Claire Simon",
+         "profile_path":null
+      },
+      {
+         "credit_id":"58a085e4c3a36803020081ae",
+         "department":"Visual Effects",
+         "id":1439088,
+         "job":"Visual Effects Supervisor",
+         "name":"David Wallace Allen",
+         "profile_path":null
+      },
+      {
+         "credit_id":"58d172849251411ae800e160",
+         "department":"Editing",
+         "id":1661423,
+         "job":"Assistant Editor",
+         "name":"Warren Paeff",
+         "profile_path":null
+      },
+      {
+         "credit_id":"58d172919251411ab500e19f",
+         "department":"Editing",
+         "id":1781335,
+         "job":"Assistant Editor",
+         "name":"Carlos Castillon",
+         "profile_path":null
+      },
+      {
+         "credit_id":"5692a109925141540b00008c",
+         "department":"Crew",
+         "id":1552521,
+         "job":"Stunts",
+         "name":"Brian Avery",
+         "profile_path":"/w1IlD3q192i2JmCW8TLNMP5nDB3.jpg"
+      },
+      {
+         "credit_id":"5692a3059251414453000218",
+         "department":"Crew",
+         "id":1368878,
+         "job":"Stunt Coordinator",
+         "name":"Damon Caro",
+         "profile_path":"/ph9YVlTltilqu9RvG3jcjnDtwth.jpg"
+      },
+      {
+         "credit_id":"56a944b29251417dd1001fae",
+         "department":"Writing",
+         "id":105643,
+         "job":"Storyboard",
+         "name":"Jay Oliva",
+         "profile_path":"/az4rTiBwQlsUUK8WGNZpOI69QLo.jpg"
+      },
+      {
+         "credit_id":"57082fa9c3a3681d300005a0",
+         "department":"Visual Effects",
+         "id":1368867,
+         "job":"Special Effects Supervisor",
+         "name":"Allen Hall",
+         "profile_path":null
+      },
+      {
+         "credit_id":"573e6da2c3a3687ad60009fb",
+         "department":"Crew",
+         "id":1251373,
+         "job":"Stunts",
+         "name":"Nancy McCrumb",
+         "profile_path":"/lCa8PXLtlLJXkChS9VovO13I31T.jpg"
+      },
+      {
+         "credit_id":"579d00c5c3a36828b10012ca",
+         "department":"Sound",
+         "id":68016,
+         "job":"Orchestrator",
+         "name":"Kevin Kaska",
+         "profile_path":null
+      }
+   ]
+}
+
+To get image of cast/crew from this use profile_path
+   http://image.tmdb.org/t/p/original//ep1MrEHNuCOWRgyn57I8smnNcTn.jpg
+
+To get details of person using its id
+   https://api.themoviedb.org/3/person/18918?api_key=068e3f59f93f5c2aa67262e9e9f3db73
+To get Upcoming Movies 
+   http://api.themoviedb.org/3/movie/upcoming?api_key=068e3f59f93f5c2aa67262e9e9f3db73

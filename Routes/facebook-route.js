@@ -3,6 +3,8 @@ var User = require('../models/user.js')
 
 var passport = require('passport')
 
+//LOgin for multiple user gives mongoose validation error
+
 var FacebookStrategy = require('passport-facebook').Strategy
 
 router.get('/logout',(req,res)=>{
@@ -21,9 +23,9 @@ passport.use(new FacebookStrategy({
 	callbackURL: 'http://localhost:8080/auth/facebook/callback',
     profileFields: ['id', 'displayName', 'photos', 'email']
 },(accessToken, refreshToken, profile, done)=>{
-	console.log(accessToken, refreshToken, profile)
+	// console.log(accessToken, refreshToken, profile)
 	process.nextTick(()=>{
-		console.log('profile is given as follows '+profile.id)
+		// console.log('profile is given as follows '+profile.id)
 		User.findOne({'facebook.id': profile.id},(err, user)=>{
 			if(err)
 				return done(err)
@@ -33,22 +35,25 @@ passport.use(new FacebookStrategy({
 				var newUser = new User({
 					profile:{},
 					facebook:{
-						'id': profile.id,
-						'token': accessToken,
-						'email': profile.email|| '',
-						'name': profile.displayName || ''
+						'id': (profile.id),
+						'token': (accessToken),
+						'email': profile.emails[0].value|| '',
+						'name': profile.displayName || '',
+						'photo': profile.photos[0].value || ''
 					}
 				})
-				
-				// newUser.save((err)=>{
-				// 	if(err){
-				// 		console.log('Some Error Occured in Saving Facbook Part of Object')
-				// 		throw err
-				// 	}
-				// 	done(null,newUser)
-				// })
+				console.log(newUser)
+				newUser.save((err)=>{
+					if(err){
+						console.log('Some Error Occured in Saving Facbook Part of Object')
+						console.log('ERROR OBJECT')
+						console.log(err)
+						throw err
+					}
+					return done(null,newUser)
+				})
 				console.log('New User has to be created')
-				done(null)
+				// return done(null)
 			}	
 		})
 	})
@@ -65,10 +70,10 @@ passport.use(new FacebookStrategy({
     });
 
 router.get('/auth/facebook',
-  passport.authenticate('facebook',{scope: 'email'}));
+  passport.authenticate('facebook',{scope: 'email', failureFlash: true}));
 
 router.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/users/login' }),
+  passport.authenticate('facebook', { failureRedirect: '/users/login', failureFlash: true }),
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect('/');

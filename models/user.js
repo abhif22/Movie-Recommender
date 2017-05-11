@@ -6,22 +6,16 @@ var Schema = mongoose.Schema
 var userSchema = new Schema({
       local: {
           username: {
-            type: String,
-            required: true,
-            unique: true
+            type: String
           },
           email: {
-            type: String,
-            required: true,
-            unique: true
+            type: String
           },
           name: {
-            type: String,
-            required: true
+            type: String
           },
           password: {
-            type: String,
-            required: true
+            type: String
           },
           city: String,
           country: String,
@@ -31,8 +25,10 @@ var userSchema = new Schema({
         id: String,
         token: String,
         email: String,
-        name: String
-      }
+        name: String,
+        photo: String //Added New
+      },
+      favorites:[{movieId:Number}]
     })
 
 var User = mongoose.model('User',userSchema)
@@ -49,8 +45,8 @@ module.exports.createUser = (newUser, callback)=>{
 });
 }
 
-module.exports.getUserByUsername = (username, callback)=>{
-  User.findOne({'local.username': username}, callback)
+module.exports.getUserByUsername = (username, email, callback)=>{
+  User.findOne({$or: [{'local.username': username}, {'local.email': email}]}, callback)
 }
 
 module.exports.getUserById = (id, callback)=>{

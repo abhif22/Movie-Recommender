@@ -5,6 +5,54 @@ var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 var FacebookStrategy = require('passport-facebook').Strategy
 
+var ensureAuthentication = (req,res,next)=>{
+		if(req.isAuthenticated())
+			next()
+		else{
+			req.flash('error_msg', 'You are not Logged In. Login First')
+			return res.redirect('/users/login')
+		}
+	}
+
+router.post('/favorite',ensureAuthentication,(req,res)=>{
+	console.log(req.body.movieId)
+	console.log(req.user)
+	/*req.user.favorites.push({movieId: req.body.movieId})
+	req.user.save((err, updatedUser)=>{
+		if(err){
+			res.end('Not Acknowledged!')
+		}
+		else{
+			console.log(updatedUser)
+			res.end('Acknowledged!')
+		}
+	})*/
+	if(!req.body.wasFavorite){
+	User.findByIdAndUpdate(req.user._id,{$addToSet:{'favorites':{'movieId':req.body.movieId}}},{safe: true, upsert: true},(err,updatedUser)=>{
+		if(err){
+			console.log(err)
+			res.end(' Not Acknowledged!')
+		}
+		else{
+			console.log(updatedUser)
+			res.end('Acknowledged!')
+		}
+	})
+	}
+	else{
+		User.findByIdAndUpdate(req.user._id,{$pull:{'favorites':{'movieId':req.body.movieId}}},{safe: true, upsert: true},(err,updatedUser)=>{
+		if(err){
+			console.log(err)
+			res.end(' Not Acknowledged!')
+		}
+		else{
+			console.log(updatedUser)
+			res.end('Acknowledged!')
+		}
+	})
+	}
+})
+
 router.get('/register',(req,res)=>{
 	res.render('register',{
 		errors: {},
@@ -58,11 +106,16 @@ router.post('/register',(req,res)=>{
 
 			}
 		})
-		User.getUserByUsername(username,(err, existingUser)=>{
+		User.getUserByUsername(username,email,(err, existingUser)=>{
 			if(err)
 				throw err
+			console.log('EXISTING USER'+existingUser)
 			if(existingUser){
-				req.flash('error_msg', 'UserName not Available')
+				if(existingUser.local.username == username){
+					req.flash('error_msg', 'UserName not Available')
+				}
+				else
+					req.flash('error_msg', 'Email Already Registered')
 				return res.redirect('/users/register')
 			}
 			else{
@@ -80,7 +133,7 @@ router.post('/register',(req,res)=>{
 
 passport.use(new LocalStrategy((username, password, done)=>{
 	console.log('UserName '+username+'\t'+'Password '+password)
-	User.getUserByUsername(username,(err, user)=>{
+	User.getUserByUsername(username,'',(err, user)=>{
 		if(err)
 			throw(err)
 		if(!user)

@@ -16,6 +16,7 @@
 
     var users = require('./Routes/users')
     var routes = require('./Routes/index')
+    var movies = require('./Routes/movies.js')
     var facebookLogin = require('./Routes/facebook-route.js')
 
    
@@ -81,6 +82,7 @@
     app.use('/',routes)
     app.use('/users',users)
     app.use('/',facebookLogin)
+    app.use('/explore',movies)
 
     var port = process.env.PORT || 8080;
     app.set('port', port)
