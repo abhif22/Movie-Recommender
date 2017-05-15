@@ -54,3 +54,24 @@ User.getUserByUsername(username,(err, existingUser)=>{
 		</div>
 	<%}%>
 </div>
+
+
+For pagination
+
+var maxResultsPerPage = 10,pageNo = req.params.page
+
+Movie.find().skip(maxResultsPerPage*pageNo).limit(maxResultsPerPage).exec((err, movies)=>{
+	if(err)
+		return next(err)
+	Movie.count().exec((err, count)=>{
+		if(err)
+			return next(err)
+		return res.render('pageToRender',{
+		movies: movies,
+		pages: count/maxResultsPerPage
+		})
+	})
+})
+
+
+https://www.w3schools.com/php/php_ajax_livesearch.asp

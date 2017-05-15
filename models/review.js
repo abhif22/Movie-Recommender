@@ -8,7 +8,10 @@ var ReviewSchema = new Schema({
 	id: Number,
 	review_collection: [
 		{
-			review: String
+			content: String,
+			url: String,
+			id: String,
+			author: String
 		}
 	]
 })

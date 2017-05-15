@@ -1,0 +1,13 @@
+	TASK				STATUS
+
+Movies Persisted 		DONE
+Review Persisted		DONE
+Users Persisted			DONE
+Facebook Login			DONE
+Local Login				DONE
+Upcoming Movies			DONE
+Movie Details			DONE (BUT CHANING MOVIE DETAILS PART IS LEFT)
+Favourite				DONE
+Watchlist				
+FB SHARE/LIKE			
+Recommendations			

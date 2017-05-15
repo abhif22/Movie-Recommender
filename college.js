@@ -17,6 +17,8 @@
     var users = require('./Routes/users')
     var routes = require('./Routes/index')
     var movies = require('./Routes/movies.js')
+    var search = require('./Routes/search.js')
+    var MovieModel = require('./models/movie.js') 
     var facebookLogin = require('./Routes/facebook-route.js')
 
    
@@ -68,6 +70,36 @@
                 }
         }
     }))
+
+    //Create Movie Mapping
+    MovieModel.createMapping((err, mapping)=>{
+        if(err){
+            console.log('Error in creating Mapping')
+            console.log(err)
+        }
+        else{
+            console.log('Mapping Created Successfully')
+            console.log(mapping)
+        }
+    })
+
+    var stream = MovieModel.synchronize()
+    var count = 0
+
+    stream.on('data',()=>{
+        count++
+    })
+
+    stream.on('close',()=>{
+        console.log(`Indexed ${count} Documents Successfully!!`)
+    })
+
+    stream.on('error',(err)=>{
+        console.log('Error in Indexing the Documents')
+        console.log(err)
+    })
+
+
     //Use connect-flash
     app.use(flash())
 
@@ -79,10 +111,11 @@
         next()
     })
 
-    app.use('/',routes)
-    app.use('/users',users)
-    app.use('/',facebookLogin)
-    app.use('/explore',movies)
+    app.use('/', routes)
+    app.use('/users', users)
+    app.use('/', facebookLogin)
+    app.use('/explore', movies)
+    app.use('/search', search)
 
     var port = process.env.PORT || 8080;
     app.set('port', port)

@@ -9,7 +9,7 @@
 		    <img class="card-img-top" src="http://image.tmdb.org/t/p/w342/<%=data[i+(block*3)].poster_path%>" alt="Card image cap" style="height: 20rem;">
 		    <div class="card-block">
 		      <h4 class="card-title"><%=data[i+(block*3)].title%><span style="margin-left: 10px;" class="badge badge-success"><%=data[i+(block*3)].vote_average%></span></h4>
-		      <p class="card-text"><%=data[i+(block*3)].overview%></p>
+		      <p class="card-text" style="text-align: justify;"><%=data[i+(block*3)].overview%></p>
 		    </div>
 		    <div class="card-footer">
 		      <a href="/explore/movies/<%=data[i+(block*3)].id%>" class="btn btn-primary">More Info</a>

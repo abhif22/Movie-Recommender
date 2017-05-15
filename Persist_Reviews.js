@@ -20,27 +20,35 @@
 
     var db = mongoose.connection
 	var i=0;
-	process.nextTick(()=>{
 		for(key in reviews){
 		// console.log(movies[key])
-		process.nextTick(()=>{
-		var newReview = new Review({
-				key: key,
-				id: reviews[key].id,
-				review_collection: reviews[key].results
-			})
-			newReview.save((err)=>{
-				if(err)
-					console.log('Review with ID: '+reviews[key].id+'could not be saved')
-				else
-					i++;
-			})
-		})
-	}
-	})
-	process.nextTick(()=>{
-		console.log('Saved Total: '+i)
-	})
+			var request = new Promise(function(resolve, reject) {
+				   //do an ajax call here. or a database request or whatever.
+				   //depending on its results, either call resolve(value) or reject(error)
+				   //where value is the thing which the operation's successful execution returns and
+				   //error is the thing which the operation's failure returns.
+				   // console.log(reviews[key].results)
+				   		var newReview = new Review({
+							key: key,
+							id: reviews[key].id,
+							review_collection: reviews[key].results
+						})
+				   newReview.save((err,savedReview)=>{
+						if(err){
+								console.log('Movie with ID: '+movies[key].id+'could not be saved')
+								return reject(err)
+								}
+							i++;
+							return resolve({saved: savedReview, i: i})
+						})
+					})
 
+			request.then(function successHandler(result) {
+			   			// console.log('Saved : '+result.i)
+			 }, function failureHandler(error) {
+			  //handle
+			  console.log(error)
+			 });			
+	}
 
 //Find Using db.reviews.findOne({'id':410803})

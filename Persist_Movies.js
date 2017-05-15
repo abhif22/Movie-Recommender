@@ -47,10 +47,12 @@
 	// var Movie = mongoose.model('Movie',MovieSchema)
 	// module.exports = Movie
 	var i=0;
-	process.nextTick(()=>{
+
 		for(key in movies){
+			if(movies[key].genres==" "){
+				movies[key].genres = []
+			}
 		// console.log(movies[key])
-		process.nextTick(()=>{
 		var newMovie = new Movie({
 			budget: movies[key].budget,
 			genres: movies[key].genres,
@@ -72,15 +74,59 @@
 			popularity: movies[key].popularity,
 			belongs_to_collection: movies[key].belongs_to_collection
 			})
-			newMovie.save((err)=>{
+
+			var request = new Promise(function(resolve, reject) {
+				   //do an ajax call here. or a database request or whatever.
+				   //depending on its results, either call resolve(value) or reject(error)
+				   //where value is the thing which the operation's successful execution returns and
+				   //error is the thing which the operation's failure returns.
+	 				newMovie.save((err,savedMovie)=>{
+							if(err){
+								console.log('Movie with ID: '+movies[key].id+'could not be saved')
+								return reject(err)
+								}
+							i++;
+							return resolve({saved: savedMovie, i: i})
+						})
+				 });
+			/*newMovie.save((err)=>{
 				if(err)
 			console.log('Movie with ID: '+movies[key].id+'could not be saved')
 			})
-			i++;
-		})
+			i++;*/
+			request.then(function successHandler(result) {
+			   			console.log('Saved : '+result.i)
+			 }, function failureHandler(error) {
+			  //handle
+			  console.log(error)
+			 });
+
 	}
-		console.log('Saved Total: '+i)
-	})
+
 
 
 //Find Using db.movies.findOne({'id':410803})
+
+	var request = new Promise(function(resolve, reject) {
+	   //do an ajax call here. or a database request or whatever.
+	   //depending on its results, either call resolve(value) or reject(error)
+	   //where value is the thing which the operation's successful execution returns and
+	   //error is the thing which the operation's failure returns.
+	 
+	 });
+
+	 request.then(function successHandler(result) {
+	   //do something with the result
+	   result = result.substring(9)
+	   // console.log(result)
+	   result = JSON.parse(result)
+	   var byPopularity = result['results'].slice(0);
+		byPopularity.sort(function(a,b) {
+		    return b.popularity - a.popularity;
+		});
+		var stringifiedResult = JSON.stringify(byPopularity,null, 4);
+	   res.render('upcoming',{data: byPopularity})
+	 }, function failureHandler(error) {
+	  //handle
+	  res.json(error)
+	 });

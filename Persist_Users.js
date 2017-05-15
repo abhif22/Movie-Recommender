@@ -34,41 +34,68 @@
 			}
 
 	var i=0;
-	process.nextTick(()=>{
 		for(key in users){
 		// console.log(movies[key])
-		var name = random.fullname(),
-			email = random.email(),
-			city = random.city(),
-			country = random.country(),
-			dob = random.date({start:'01/01/1980', end: '01/01/2010'});
-		process.nextTick(()=>{
-		var newUser = new User({
-			local: {
-					name: name[i] ,
-					email: email[i],
-					password: 'abc123',
-					username: (users[key].UserID).toString(),
-					city: city[i],
-			        country: country[i],
-			        dob: dob[i]
-					},
-			facebook: {
+			var randPromise = new Promise((resolve, reject)=>{
+				var name = random.fullname(),
+				email = random.email(),
+				city = random.city(),
+				country = random.country(),
+				dob = random.date({start:'01/01/1980', end: '01/01/2010'});
 
-			}
-		})
-			newUser.save((err)=>{
-				if(err)
-					console.log('User with ID: '+users[key].id+'could not be saved')
-				else
-					i++;
+				resolve({
+					name: name,
+					email: email,
+					city: city,
+					country: country,
+					dob: dob
+				})
 			})
-		})
+
+			randPromise.then((result)=>{
+				var request = new Promise(function(resolve, reject) {
+				   //do an ajax call here. or a database request or whatever.
+				   //depending on its results, either call resolve(value) or reject(error)
+				   //where value is the thing which the operation's successful execution returns and
+				   //error is the thing which the operation's failure returns.
+				   // console.log(reviews[key].results)
+
+
+				   	var newUser = new User({
+						local: {
+								name: result.name ,
+								email: result.email,
+								password: 'abc123',
+								username: (users[key].UserID).toString(),
+								city: result.city,
+						        country: result.country,
+						        dob: result.dob
+								},
+						facebook: {
+
+						}
+					})
+						newUser.save((err,savedUser)=>{
+							if(err){
+								console.log('Movie with ID: '+users[key].id+'could not be saved')
+								return reject(err)
+								}
+								i++;
+								return resolve({saved: savedUser, i: i})
+						})
+					})
+							request.then(function successHandler(result) {
+				   			// console.log('Saved : '+result.i)
+							 }, function failureHandler(error) {
+							  //handle
+							  console.log(error)
+							 });
+			},
+			(err)=>{
+				console.log('Error in Generating Random Data')
+			})		
 	}
-	})
-	process.nextTick(()=>{
-		console.log('Saved Total: '+i)
-	})
+
 
 
 //Find Using db.reviews.findOne({'id':410803})
