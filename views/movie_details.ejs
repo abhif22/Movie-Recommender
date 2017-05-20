@@ -3,25 +3,25 @@
     <!-- PRIMARY DETAILS -->
 
   <div class="hero">
-  <img class="hero__background" src="http://image.tmdb.org/t/p/original/ypyeMfKydpyuuTMdp36rMlkGDUL.jpg">
+  <img class="hero__background" src="http://image.tmdb.org/t/p/original/<%=movie_details.movie.poster_path%>">
   <div class="hero__content" style="margin-top: 80px;">
   <div class="container" style="position: absolute;box-sizing: border-box;">
     <div class="row">
       <div class="col-md-3">
-        <img src="http://image.tmdb.org/t/p/w500/dCgm7efXDmiABSdWDHBDBx2jwmn.jpg" id="movie-poster">
+        <img src="http://image.tmdb.org/t/p/w500/<%=movie_details.movie.poster_path%>" id="movie-poster">
       </div>
       <div class="col-md-9">
-        <h1 class="hero__title" id="title" data-movie-id="168259" style="position: relative;left: -20%;top:-10%;">Furious 7(2015)</h1>
+        <h1 class="hero__title" id="title" data-movie-id="<%=movie_details.movie.id%>" style="position: relative;left: -20%;top:-10%;"><%=movie_details.movie.original_title%></h1>
          <span style="font-size: .3em;font-weight:bolder;position: absolute;left: 25%;top:32%;">User<br>Score</span>
         <div class="second circle" style="position: absolute;left: 15%;">
           <strong style="font-size: .3em;position: absolute;top:6px;"></strong>
         </div>
-        <span id="myicon" data-toggle="tooltip" data-placement="bottom" title="Click to Mark as Favorite" style="">&hearts;</span>
+        <span id="myicon" data-toggle="tooltip" data-placement="bottom" data-wasFav="<%= movie_details.wasFav%>" title="Click to Mark as Favorite" style="">&hearts;</span>
         <span id="mystaricon" data-toggle="tooltip" data-placement="bottom" title="Click to Rate this Movie" data-myrating="4" style="font-size:100%;color:white">&star;</span>
-        <div id="snackbar">Successfully Rated!</div>
+        <div id="snackbar"></div>
         <div class="col-md-12">
         <h3 style=";margin-left: 50px;text-align: left;position: relative;left: 5%;top:-10%;">Overview:</h3>
-        <p class="movie-overview" style="position: relative;left: 5%;top:-10%;">Deckard Shaw seeks revenge against Dominic Toretto and his family for his comatose brother. Deckard Shaw seeks revenge against Dominic Toretto and his family for his comatose brother.</p>
+        <p class="movie-overview" style="position: relative;left: 5%;top:-10%;"><%=movie_details.movie.overview%></p>
         <h3 style="margin-top: 50px;margin-left: 50px;text-align: left;position: relative;left: 5%;top:-10%;">Featured Crew:</h3>
         <div id="crew">
         <a class="crew" href=""><span class="badge badge-pill badge-default">James Wan (Director)</span></a>
@@ -48,78 +48,18 @@
           <h2  style="margin: 10px auto;"><span class="badge badge-default">Top Billed Cast</span></h2>
           <div class="col-md-12" style="position: relative;margin-left: 1.5%;margin-top: 0px;">
             <div class="owl-carousel owl-theme" style="margin: auto;">
+              
+            <%for(i=0;i<movie_details.cast.length;i++){%>
               <div class="item">
                 <div class="card">
-                  <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/3RdYMTLoL1X16djGF52cFtJovDT.jpg" style="border: none; max-width: 100%;
+                  <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/<%=movie_details.cast[i].profile_path%>" style="border: none; max-width: 100%;
         max-height: 100%;;" alt="Card image cap">
                   <div class="card-block">
-                    <a href=""><p class="card-text">Vin Deisel</p></a>
+                    <a href=""><p class="card-text"><%=movie_details.cast[i].name%> as <%=movie_details.cast[i].character%></p></a>
                   </div>
                 </div>
               </div>
-              <div class="item">
-                <div class="card">
-                  <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/iqvYezRoEY5k8wnlfHriHQfl5dX.jpg" style="border: none; max-width: 100%;
-        max-height: 100%;" alt="Card image cap">
-                  <div class="card-block">
-                    <a href=""><p class="card-text">Paul Walker</p></a>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/akweMz59qsSoPUJYe7QpjAc2rQp.jpg" style="border: none; max-width: 100%;
-        max-height: 100%;;" alt="Card image cap">
-                  <div class="card-block">
-                    <a href=""><p class="card-text">Dwayne Johnson</p></a>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/v37VK0MNuRuJOCKPKJcZAJXRA5r.jpg" style="border: none; max-width: 100%;
-        max-height: 100%;;" alt="Card image cap">
-                  <div class="card-block">
-                    <a href=""><p class="card-text">Michelle Rodriguez</p></a>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/xLfq9wFO6dtYuUK96hbJ8I8EKFw.jpg" style="border: none; max-width: 100%;
-        max-height: 100%;;" alt="Card image cap">
-                  <div class="card-block">
-                    <a href=""><p class="card-text">Ludacris</p></a>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/PhWiWgasncGWD9LdbsGcmxkV4r.jpg" style="border: none; max-width: 100%;
-        max-height: 100%;;" alt="Card image cap">
-                  <div class="card-block">
-                    <a href=""><p class="card-text">Jason Statham</p></a>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/iBuwoRzrFNbotnX5QNW7cepuld9.jpg" style="border: none; max-width: 100%;
-        max-height: 100%;;" alt="Card image cap">
-                  <div class="card-block">
-                    <a href=""><p class="card-text">Gal Gadot</p></a>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="card">
-                  <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/c1km2kqasJT9GTISMbBZpp3jbuR.jpg" style="border: none; max-width: 100%;
-        max-height: 100%;;" alt="Card image cap">
-                  <div class="card-block">
-                    <a href=""><p class="card-text">Elsa Lafuente Pataky</p></a>
-                  </div>
-                </div>
-              </div>
+              <%}%>
             </div>
           </div>
       </div>
@@ -131,46 +71,45 @@
             <hr>
             <h4>Status</h4>
             <div class="col-md-8">
-              <span class="badge badge-default" style="margin:5px;">Released</span>
+              <span class="badge badge-default" style="margin:5px;"><%=movie_details.movie.status%></span>
+              <span class="badge badge-default" style="margin:5px;"><%=movie_details.movie.release_date%></span>
             </div>
             <hr>
             <h4>Average Vote</h4>
             <div class="col-md-8">
-              <span class="badge badge-default" style="margin:5px;">7.6</span>
+              <span class="badge badge-default" style="margin:5px;"><%=movie_details.movie.vote_average%></span>
             </div>
             <hr>
             <h4>Vote Count</h4>
             <div class="col-md-8">
-              <span class="badge badge-default" style="margin:5px;">2078</span>
+              <span class="badge badge-default" style="margin:5px;"><%=movie_details.movie.vote_count%></span>
             </div>
             <hr>
             <h4>Genres</h4>
             <div class="col-md-8">
-              <a href=""><span class="badge badge-default" style="margin:5px;">Action</span></a>
-              <a href=""><span class="badge badge-default" style="margin:5px;">Romance</span></a>
-              <a href=""><span class="badge badge-default" style="margin:5px;">Sci-Fi</span></a>
-              <a href=""><span class="badge badge-default" style="margin:5px;">Thriller</span></a>
-              <a href=""><span class="badge badge-default" style="margin:5px;">Suspense</span></a>
+              <%for(i=0;i<movie_details.movie.genres.length;i++){%>
+              <a href=""><span class="badge badge-default" style="margin:5px;"><%=movie_details.movie.genres[i].name%></span></a>
+              <%}%>
             </div>
             <hr>
             <h4>Budget</h4>
             <div class="col-md-8">
-              <span class="badge badge-default" style="margin:5px;">$190,000,000.00</span>
+              <span class="badge badge-default" style="margin:5px;"><%=movie_details.movie.budget%></span>
             </div>
             <hr>
             <h4>Runtime</h4>
             <div class="col-md-8">
-              <span class="badge badge-default" style="margin:5px;">2hr 17min</span>
+              <span class="badge badge-default" style="margin:5px;"><%=movie_details.movie.runtime%></span>
             </div>
             <hr>
             <h4>Revenue</h4>
             <div class="col-md-8">
-              <span class="badge badge-default" style="margin:5px;">$1,506,249,360.00</span>
+              <span class="badge badge-default" style="margin:5px;">$<%=movie_details.movie.revenue%></span>
             </div>
             <hr>
             <h4>Homepage</h4>
             <div class="col-md-8">
-              <a href="http://www.furious7.com/"><span class="badge badge-default" style="margin:5px;">http://www.furious7.com/</span></a>
+              <a href="<%=movie_details.movie.homepage%>"><span class="badge badge-default" style="margin:5px;"><%=movie_details.movie.homepage%></span></a>
             </div>
             <hr>
           </div>
@@ -189,78 +128,17 @@
       <h2  style="margin: auto;"><span class="badge badge-default">Similar Movies</span></h2>
       <div class="col-md-12" style="position: relative;margin-left: 0%;margin-top: 30px;">
         <div class="owl-carousel owl-theme">
+        <%for(i=0;i<movie_details.similarmovies.length;i++){%>
           <div class="item">
             <div class="card">
-              <img class="card-img-top" src="http://image.tmdb.org/t/p/w154//cA81CI8odKv5KHRUUzJbj83yN7c.jpg" style="border: none; max-width: 100%;
-    max-height: 100%;;" alt="Card image cap">
-              <div class="card-block">
-                <a href=""><p class="card-text">Fast Five</p></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="card">
-              <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/iNpz2DgTsTMPaDRZq2tnbqjL2vF.jpg" style="border: none; max-width: 100%;
+              <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/<%=movie_details.similarmovies[i].poster_path%>" style="border: none; max-width: 100%;
     max-height: 100%;" alt="Card image cap">
               <div class="card-block">
-                <a href=""><p class="card-text">Furious 8</p></a>
+                <a href="http://localhost:8080/explore/movies/<%=movie_details.similarmovies[i].id%>"><p class="card-text"><%=movie_details.similarmovies[i].title%></p></a>
               </div>
             </div>
           </div>
-          <div class="item">
-            <div class="card">
-              <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/t90Y3G8UGQp0f0DrP60wRu9gfrH.jpg" style="border: none; max-width: 100%;
-    max-height: 100%;;" alt="Card image cap">
-              <div class="card-block">
-                <a href=""><p class="card-text">Avengers: Age of Ultron</p></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="card">
-              <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/ikDwR3i2bczqnRf1urJTy77YTFf.jpg" style="border: none; max-width: 100%;
-    max-height: 100%;;" alt="Card image cap">
-              <div class="card-block">
-                <a href=""><p class="card-text">Taken 3</p></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="card">
-              <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/qey0tdcOp9kCDdEZuJ87yE3crSe.jpg" style="border: none; max-width: 100%;
-    max-height: 100%;;" alt="Card image cap">
-              <div class="card-block">
-                <a href=""><p class="card-text">San Andreas</p></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="card">
-              <img class="card-img-top" src="http://image.tmdb.org/t/p/w154//8x7ej0LnHdKUqilNNJXYOeyB6L9.jpg" style="border: none; max-width: 100%;
-    max-height: 100%;;" alt="Card image cap">
-              <div class="card-block">
-                <a href=""><p class="card-text">Kingsman: The Secret Service</p></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="card">
-              <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/z2sJd1OvAGZLxgjBdSnQoLCfn3M.jpg" style="border: none; max-width: 100%;
-    max-height: 100%;;" alt="Card image cap">
-              <div class="card-block">
-                <a href=""><p class="card-text">Mission: Impossible - Rogue Nation </p></a>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="card">
-              <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/ykIZB9dYBIKV13k5igGFncT5th6.jpg" style="border: none; max-width: 100%;
-    max-height: 100%;;" alt="Card image cap">
-              <div class="card-block">
-                <a href=""><p class="card-text">Transformers: Age of Extinction </p></a>
-              </div>
-            </div>
-          </div>
+          <%}%>
         </div>
       </div>
     </div>

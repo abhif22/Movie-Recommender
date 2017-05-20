@@ -20,6 +20,7 @@
     var search = require('./Routes/search.js')
     var MovieModel = require('./models/movie.js') 
     var facebookLogin = require('./Routes/facebook-route.js')
+    var watchlist = require('./Routes/watchlist.js')
 
    
 
@@ -116,6 +117,7 @@
     app.use('/', facebookLogin)
     app.use('/explore', movies)
     app.use('/search', search)
+    app.use('/your_watchlist',watchlist)
 
     var port = process.env.PORT || 8080;
     app.set('port', port)

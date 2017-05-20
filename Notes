@@ -75,3 +75,27 @@ Movie.find().skip(maxResultsPerPage*pageNo).limit(maxResultsPerPage).exec((err, 
 
 
 https://www.w3schools.com/php/php_ajax_livesearch.asp
+
+
+
+
+
+FOR SIMILAR MOVIES
+
+calculate similar movies from ipynb notebook
+copy the file to root directory and name it as SimilarMovies.json
+run script similarmovies_preprocess.js
+ProcessedSimilarMoviesData.json is similar movies data
+
+
+FOR RECOMMENDATIONS
+
+calculate the recommendations for each users (LIMIT: 20 for each users)
+save it to json format
+write preprocess script
+load the json data
+and do it like in similar movies but use async waterfall models here
+
+
+// Curently unable to login using various username which were persisted in db
+because password in db is abc123 but when login is checked abc123 given via post request is hashed and then matched with abc123 and not hashed(abc123)

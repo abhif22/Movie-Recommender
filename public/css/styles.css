@@ -1,4 +1,8 @@
 
+.close-icon {
+  cursor: pointer;
+}
+
 .carousel-item.active .img-slider {
     -webkit-transition: transform 3000ms linear 0s;
     /* This should be based on your carousel setting. For bs, it should be 5second*/

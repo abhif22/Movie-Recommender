@@ -6,8 +6,17 @@ Users Persisted			DONE
 Facebook Login			DONE
 Local Login				DONE
 Upcoming Movies			DONE
-Movie Details			DONE (BUT CHANING MOVIE DETAILS PART IS LEFT)
+Movie Details			DONE
 Favourite				DONE
-Watchlist				
+Watchlist				DONE
+LIVE SEARCH
 FB SHARE/LIKE			
 Recommendations			
+Show Movies By particular Director
+Show Movies of a particular Actor/Actress
+Show Actor/Actress Details
+
+
+
+
+

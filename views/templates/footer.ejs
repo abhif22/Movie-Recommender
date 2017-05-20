@@ -72,24 +72,18 @@
         });*/
         var movieId = $('#title').data('movie-id');
         console.log('MovieId '+movieId)
+
+         var flag = false;
+         console.log($('#myicon').data('wasfav'))
+        if($('#myicon').data('wasfav')=='1'){
+          $('#myicon').css('color','red');// Remove this after adding url
+            flag = true;
+        }
+
         //Do This only if User is Logged In
         $('#myicon').on('click', function(e){
           console.log('Event Occurred')
-          var flag = false;
-          if( $('#myicon').hasClass('myicon_clicked') ){
-            $('#myicon').removeClass('myicon_clicked');
-            $('#myicon').addClass('myicon_not-clicked');
-            console.log('Class Clicked Was Present');
-            $('#myicon').css('color','white');// Remove this after adding url
-            flag = true; //Means Movie was favorited 
-          }
-          else{
-            $('#myicon').removeClass('myicon_not-clicked');
-            $('#myicon').addClass('myicon_clicked');
-            console.log('Class not-Clicked Was Present');
-            $('#myicon').css('color','red');// Remove this after adding url
-            flag = false; //Means Movie was not favorited
-          } 
+
           //Make AJAX request to mark this movie as favorite for this user
             $.ajax({
               'url':'/users/favorite',
@@ -102,10 +96,37 @@
               console.log('Successfully Posted! '+data)
                 if(flag){
                   $('#myicon').css('color','white');
+                   $('#snackbar').html('Removed from Watchlist')
+                  flag = false
                 }
                 else{
                   $('#myicon').css('color','red');
+                   $('#snackbar').html('Added to Watchlist')
+                  flag = true
                 }
+                mySnackBarFunction()
+            }).fail(function(xhrReq, status, err){
+
+            });
+
+        });
+
+        $('.fav_icon').on('click', function(e){
+          console.log('Event Occurred')
+
+          //Make AJAX request to mark this movie as favorite for this user
+            $.ajax({
+              'url':'/your_watchlist/delete/',
+              'method': 'POST',
+              'data': JSON.stringify({
+                'movieId': $(this).data('movie_id') 
+              }),
+              contentType: "application/json",
+            }).done(function(data, status, xhrReq){
+              console.log('Successfully Posted! '+data)
+                console.log(data)
+
+                    $('#'+data.movieId).remove()
             }).fail(function(xhrReq, status, err){
 
             });
@@ -157,6 +178,7 @@
           onSet: function (rating, rateYoInstance) {
                       console.log("Rating is set to: " + rating);
                       my_prev_rating = rating;
+                      $('#snackbar').html('Successfully Rated')
                       mySnackBarFunction()//Remove this after adding ajax
                       //Send AJAX Request
                       /*$.ajax({

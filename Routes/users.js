@@ -1,5 +1,6 @@
 var router = require('express').Router()
 var User = require('../models/user.js')
+var Movie = require('../models/movie.js')
 
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
@@ -15,8 +16,8 @@ var ensureAuthentication = (req,res,next)=>{
 	}
 
 router.post('/favorite',ensureAuthentication,(req,res)=>{
-	console.log(req.body.movieId)
-	console.log(req.user)
+	// console.log(req.body.movieId)
+	// console.log(req.user)
 	/*req.user.favorites.push({movieId: req.body.movieId})
 	req.user.save((err, updatedUser)=>{
 		if(err){
