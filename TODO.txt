@@ -9,12 +9,14 @@ Upcoming Movies			DONE
 Movie Details			DONE
 Favourite				DONE
 Watchlist				DONE
-LIVE SEARCH
-FB SHARE/LIKE			
+LIVE SEARCH				DONE
 Recommendations			
+Recent Views			
+FB SHARE/LIKE			
 Show Movies By particular Director
 Show Movies of a particular Actor/Actress
 Show Actor/Actress Details
+
 
 
 

@@ -19,7 +19,8 @@ var userSchema = new Schema({
           },
           city: String,
           country: String,
-          dob: Date
+          dob: Date,
+          id: Number
       },
       facebook: {
         id: String,
@@ -28,7 +29,8 @@ var userSchema = new Schema({
         name: String,
         photo: String //Added New
       },
-      favorites:[{movieId:Number}]
+      favorites: [{movieId:Number}],
+      recent_movies: [{movieId:Number}]
     })
 
 var User = mongoose.model('User',userSchema)

@@ -101,7 +101,8 @@ router.post('/register',(req,res)=>{
 					username: username,
 					city: city,
 					country: country,
-					dob: dob
+					dob: dob,
+					id: Math.floor(Math.random() * 899999 + 100000)
 					},
 			facebook: {
 
