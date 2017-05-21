@@ -12,7 +12,10 @@ var MovieSchema = new Schema({
 			}
 	],
 	homepage: String,
-	id: Number,
+	id: {
+		type: Number,
+		es_indexed: true
+	},
 	imdb_id: String,
 	original_language: String,
 	original_title: {
@@ -22,7 +25,10 @@ var MovieSchema = new Schema({
 		type: String,
 		es_indexed: true
 	},
-	poster_path: String,
+	poster_path: {
+		type: String,
+		es_indexed: true
+	},
 	release_date: {
 		type: Date,
 		es_indexed: true

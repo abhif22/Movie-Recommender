@@ -1,6 +1,38 @@
 
-.close-icon {
-  cursor: pointer;
+#search-results{
+  position: fixed;
+  top:57px;
+  width: 100%;
+  padding-right: 40px;
+  z-index: 10000;
+  text-align: left;
+  background-color: rgba(179, 179, 179, .9);
+  height: 0px;
+  overflow: auto;
+}
+
+a {
+text-decoration: none;
+}
+.search_result_listitem: hover{
+  background-color: rgba(64, 64, 64, .9);
+  height: 60px;
+}
+
+#search-results .search_result_listitem img{
+  width: 80px;
+  height: 100px;
+  overflow: hidden;
+  padding: 2px;
+  margin: 2px;
+  margin-right: 15px;
+}
+
+#search-results .search_result_listitem{
+  list-style: none;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
 }
 
 .carousel-item.active .img-slider {
