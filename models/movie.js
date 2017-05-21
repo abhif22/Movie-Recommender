@@ -23,7 +23,7 @@ var MovieSchema = new Schema({
 	},
 	overview: {
 		type: String,
-		es_indexed: true
+		es_indexed: false
 	},
 	poster_path: {
 		type: String,

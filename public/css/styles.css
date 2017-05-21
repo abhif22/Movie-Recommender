@@ -6,16 +6,16 @@
   padding-right: 40px;
   z-index: 10000;
   text-align: left;
-  background-color: rgba(179, 179, 179, .9);
+  background-color: rgb(255, 255, 255);
   height: 0px;
   overflow: auto;
 }
 
 a {
-text-decoration: none;
+text-decoration: none !important;
 }
 .search_result_listitem: hover{
-  background-color: rgba(64, 64, 64, .9);
+  background-color: rgb(64, 64, 64);
   height: 60px;
 }
 
@@ -30,7 +30,7 @@ text-decoration: none;
 
 #search-results .search_result_listitem{
   list-style: none;
-  color: white;
+  color: black;
   padding: 10px;
   font-weight: bold;
 }
