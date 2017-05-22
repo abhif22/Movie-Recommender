@@ -33,8 +33,12 @@ router.get('/movies/:movie_id',(req,res)=>{
 	async.waterfall([(cb)=>{
 
 		Movie.findOne({id: movieId},(err,result)=>{
-					if(err)
-						return cb(err)
+					console.log('result',result)
+					if(!result){
+						console.log('Movie Not found in database')
+						console.info(err)
+						return cb(null, false, movieId)
+						}
 						//If req.user that is user is logged in, then loop through its favorites list
 						// To set wasFav flag
 						if(req.user){
@@ -44,11 +48,36 @@ router.get('/movies/:movie_id',(req,res)=>{
 								}
 							}
 						}
-						else
+						else{
 							wasFav = 0
-					return cb(null, result)
+						}
+					return cb(null, true, result)
 				})
-	}, (result,cb)=>{
+	}, (gotResultFromDB, result, cb)=>{
+
+			if(!gotResultFromDB){
+				//Get Data from TMDB
+				console.log('Getting Movie Data from TMDB')
+				var data
+				http.request(`http://api.themoviedb.org/3/movie/${result}?api_key=068e3f59f93f5c2aa67262e9e9f3db73`, function(response) {
+					  response.setEncoding('utf8');
+					  response.on('data', function (chunk) {
+					    // console.log('BODY: ' + chunk);
+					    data+=chunk
+					  });
+					  response.on('end',()=>{
+					  	return cb(null, gotResultFromDB, JSON.parse(data.substring(9)))
+					  })
+					  response.on('error', (err)=>{
+					  	return cb(err)
+					  })
+				}).end();
+			}
+			else{
+				cb(null, gotResultFromDB, result)
+			}
+
+	}, (gotResultFromDB, result, cb)=>{
 
 		var movie_details = {}
 		//Add Cast, Crew, Similar Movies to movie_details
@@ -64,13 +93,13 @@ router.get('/movies/:movie_id',(req,res)=>{
 			    data+=chunk
 			  });
 			  response.on('end',()=>{
-			  	return cb(null, movie_details, data)
+			  	return cb(null, gotResultFromDB, movie_details, data)
 			  })
 			  response.on('error', (err)=>{
 			  	return cb(err)
 			  })
 		}).end();
-	}, (movie_details, cast_and_crew, cb)=>{
+	}, (gotResultFromDB, movie_details, cast_and_crew, cb)=>{
 			cast_and_crew = cast_and_crew.substring(9)
 				   // console.log(result)
 			cast_and_crew = JSON.parse(cast_and_crew)
@@ -79,6 +108,7 @@ router.get('/movies/:movie_id',(req,res)=>{
 			movie_details.cast = cast_and_crew.cast
 			movie_details.crew= cast_and_crew.crew
 			// console.log('NOW PROCESSING SIMILAR MOVIES')
+			if(gotResultFromDB){
 			var arr = []
 			let similarMoviesIds = SimilarMovies[movieId]
 			// console.log('SIMILAR MOVIES IDS')
@@ -98,12 +128,19 @@ router.get('/movies/:movie_id',(req,res)=>{
 				if(err)
 					return cb(err)
 				movie_details.similarmovies = arr
-				return cb(null, movie_details)
+				return cb(null, gotResultFromDB, movie_details)
 			})
+		}
+		else{
+			// Set movie_details.similarmovies = empty array else it will give error in ejs rendering
+			movie_details.similarmovies = []
+			//Since gotResultFromDB is false don't stop waterfall
+			cb(null, gotResultFromDB, movie_details)
+		}
 
-	},(movie_details, cb)=>{
+	},(gotResultFromDB, movie_details, cb)=>{
 
-		if(req.user){
+		if(req.user&&gotResultFromDB){
 			/*var tmp = req.user.recent_movies
 			console.log('TMP = '+tmp)
 			tmp.pop()
@@ -120,20 +157,20 @@ router.get('/movies/:movie_id',(req,res)=>{
 					else{
 						console.log('Successfully Pulled!')
 					}
-					return cb(null, movie_details)
+					return cb(null, gotResultFromDB, movie_details)
 				})
 			}
 			else{
-				return cb(null, movie_details)
+				return cb(null, gotResultFromDB, movie_details)
 			}
 		}
 		else{
-			return cb(null, movie_details)
+			return cb(null, gotResultFromDB, movie_details)
 		}
 
-	}, (movie_details, cb)=>{
+	}, (gotResultFromDB, movie_details, cb)=>{
 
-		if(req.user){
+		if(req.user&&gotResultFromDB){
 			/*var tmp = req.user.recent_movies
 			console.log('TMP = '+tmp)
 			tmp.pop()
@@ -154,8 +191,10 @@ router.get('/movies/:movie_id',(req,res)=>{
 	}], (err, finalResult)=>{
 		if(err)
 			return res.render('movie_details',{err: err})
-		else
+		else{
+			console.log(finalResult)
 			return res.render('movie_details',{movie_details: finalResult})
+		}
 	})
 
 })
@@ -196,13 +235,46 @@ router.get('/upcoming',(req,res)=>{
 		byPopularity.sort(function(a,b) {
 		    return b.popularity - a.popularity;
 		});
-		var stringifiedResult = JSON.stringify(byPopularity,null, 4);
-	   res.render('upcoming',{data: byPopularity})
+		// var stringifiedResult = JSON.stringify(byPopularity,null, 4);
+	   res.render('upcoming',{data: byPopularity, total_pages: result.total_pages})
 	 }, function failureHandler(error) {
 	  //handle
 	  res.json(error)
 	 });
 
+})
+
+router.get('/upcoming/:page',(req,res)=>{
+
+	async.waterfall([(cb)=>{
+
+		var page = req.params.page
+		console.log('Asked for page '+page)  
+		var data
+		http.request('http://api.themoviedb.org/3/movie/upcoming?api_key=068e3f59f93f5c2aa67262e9e9f3db73&page='+page, function(result) {
+			  result.setEncoding('utf8');
+			  result.on('data', function (chunk) {
+			    // console.log('BODY: ' + chunk);
+			    data+=chunk
+			  });
+			  result.on('end',()=>{
+			  	return cb(null, JSON.parse(data.substring(9)))
+			  })
+		}).end();
+	}, (result, cb)=>{
+
+			var byPopularity = result['results'].slice(0);
+				byPopularity.sort(function(a,b) {
+				    return b.popularity - a.popularity;
+				});
+				cb(null, result.total_pages, byPopularity)
+
+	}],(err, total_pages, finalResult)=>{
+		if(err){
+			return res.render('upcoming',{data: finalResult, total_pages: total_pages})
+		}
+		res.render('upcoming',{data: finalResult, total_pages: total_pages})
+	})
 })
 
 module.exports = router; 

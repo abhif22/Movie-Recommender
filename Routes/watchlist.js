@@ -46,6 +46,7 @@ var req
 		Movie.findOne({id: fav.movieId}, (err, movie)=>{
 			if(err)
 				console.log('Not found Movie with id '+fav.movieId)
+			if(movie)
 			movies.push(movie)
 			callback()
 		})
