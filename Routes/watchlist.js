@@ -18,7 +18,9 @@ var ensureAuthentication = (req,res,next)=>{
 	//In view for your_watchlist loop and display all results as on upcoming page
 var req
  getFavourites = (cb)=>{
-	if(req.user.facebook){
+ 	console.log(req.user)
+	/*if(req.user.facebook!=null){
+		console.log('Fetching Watchlist by Facebook')
 		User.findOne({'facebook.email': req.user.facebook.email},(err, result)=>{
 			if(err){
 				cb(err)
@@ -27,20 +29,23 @@ var req
 		})
 	}
 	else if(req.user.local){
+		console.log('Fetching Watchlist by Username')
 		User.findOne({'local.username': req.user.local.username},(err, result)=>{
+			console.log(result)
 			if(err){
 				cb(err)
 			}
 			cb(null, result.favorites)
 		})
-	}
+	}*/
+	cb(null, req.user.favorites)
 }
 
  getMovies = (favs, cb)=>{
 	var i = 0
 	var movies = []
 
-	console.log(favs)
+	// console.log(favs)
 
 	async.each(favs, (fav, callback)=>{
 		Movie.findOne({id: fav.movieId}, (err, movie)=>{
@@ -76,7 +81,7 @@ router.post('/delete/',ensureAuthentication,(req,res,next)=>{
 			return res.status(401).send({"status" : 'Some Error Occurred', 'movieId': req.body.movieId});
 		}
 		else{
-			console.log(updatedUser)
+			// console.log(updatedUser)
 			return res.status(200).send({"status" : 'Done!', 'movieId': req.body.movieId});
 		}
 	})

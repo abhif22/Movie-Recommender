@@ -215,10 +215,9 @@
                       console.log("Rating is set to: " + rating);
                       my_prev_rating = rating;
                       $('#snackbar').html('Successfully Rated')
-                      mySnackBarFunction()//Remove this after adding ajax
                       //Send AJAX Request
-                      /*$.ajax({
-                        'url':'',
+                      $.ajax({
+                        'url':'http://localhost:8080/explore/movies/'+movieId+'/rate',
                         'method': 'POST',
                         'data': {'rating': rating,
                           'movieId': movieId 
@@ -227,7 +226,7 @@
                         mySnackBarFunction()
                       }).fail(function(xhrReq, status, err){
                           
-                      });*/
+                      });
           }
         });
         });      

@@ -11,12 +11,16 @@ Favourite				DONE
 Watchlist				DONE
 LIVE SEARCH				DONE
 Recommendations			
-Recent Views			
+Recent Views			DONE
 FB SHARE/LIKE			
 Show Movies By particular Director
 Show Movies of a particular Actor/Actress
 Show Actor/Actress Details
 
+
+USE recommend_from_interactions to get recommendations for new user
+Since the movies rated by user are already being added to ratings.csv add them to user schema under rated.
+Whenever User logs in check to see the growth of data  (like if no of ids % 5 =0, then start recommending)
 
 
 

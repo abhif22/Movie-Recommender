@@ -1,25 +1,21 @@
 
 
-   <div class="container" style="position: relative;margin-top: 1100px;">
-    <div class="row">
-      <h2  style="margin: auto;"><span class="badge badge-default">Recently Viewed</span></h2>
-      <div class="col-md-12" style="position: relative;margin-left: 0%;margin-top: 30px;">
-        <div class="owl-carousel owl-theme">
-        <%for(i=0;i<recent_views.length;i++){%>
-          <div class="item">
-            <div class="card">
-              <img class="card-img-top" src="http://image.tmdb.org/t/p/w154/<%=recent_views[i].poster_path%>" style="border: none; max-width: 100%;
-    max-height: 100%;" alt="Card image cap">
-              <div class="card-block">
-                <a href="http://localhost:8080/explore/movies/<%=recent_views[i].id%>"><p class="card-text"><%=recent_views[i].title%></p></a>
-              </div>
-            </div>
-          </div>
-          <%}%>
-        </div>
-      </div>
-    </div>
-  </div>
+
+pip install virtualenv
+mkdir test_vir_env
+cd test_vir_env
+virtualenv flask1
+source flask1/bin/activate
+pip install packagename
+pip list //shows list of packages install under this local env
+deactivate // to close virenv
+rm -rf test_vir_env
+
+
+
+
+
+
 
 
 

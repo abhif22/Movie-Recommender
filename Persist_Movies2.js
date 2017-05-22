@@ -33,15 +33,14 @@
 		}
 		callback(null, arr)
 	},(moviesArr, callback)=>{
+		for(i=0;i<3;i++)
+			console.log(moviesArr[i])
 		var newCastList = []
 		//Loop for each movie and fetch its cast and crew
 		async.each(moviesArr, (movie, cb)=>{
-
-	if(movie.genres==" "){
-		movies.genres = []
-	}
-	var data
-	http.request(`http://api.themoviedb.org/3/movie/${movie.id}/casts?api_key=068e3f59f93f5c2aa67262e9e9f3db73`, function(result) {
+			setTimeout(()=>{
+				var data
+			http.request(`http://api.themoviedb.org/3/movie/${movie.id}/casts?api_key=068e3f59f93f5c2aa67262e9e9f3db73`, function(result) {
 		  result.setEncoding('utf8');
 		  result.on('data', function (chunk) {
 		    // console.log('BODY: ' + chunk);
@@ -49,29 +48,7 @@
 		  });
 		  result.on('end',()=>{
 		  	i++;
-		  	//Create a new movie
-		  	/*var tmp = new Movie({
-			budget: movie.budget,
-			genres: movie.genres,
-			homepage: movie.homepage,
-			id: Math.round(movie.id),
-			imdb_id: movie.imdb_id,
-			original_language: movie.original_language,
-			original_title: movie.original_title,
-			overview: movie.overview,
-			poster_path: movie.poster_path,
-			release_date: movie.release_date,
-			revenue: movie.revenue,
-			runtime: movie.runtime,
-			status: movie.status,
-			title: movie.title,
-			tagline: movie.tagline,
-			vote_average: movie.vote_average,
-			vote_count: movie.vote_count,
-			popularity: movie.popularity,
-			belongs_to_collection: movie.belongs_to_collection
-			cast_and_crew: 
-			})*/
+		  	
 			var cast_and_crew = data.substring(9)
 			   // console.log(result)
 			cast_and_crew = JSON.parse(cast_and_crew)
@@ -79,19 +56,17 @@
 			console.log(`http://api.themoviedb.org/3/movie/${movie.id}/casts?api_key=068e3f59f93f5c2aa67262e9e9f3db73`)
 			console.log('---------------------')
 			console.log('Got cast and crew for movieId '+movie.id + '\t'+i)
+			console.log(cast_and_crew)
 			console.log('----------------------------------------------------------------------------------')
 			newCastList.push({movieId: movie.id, cast_and_crew: cast_and_crew})
-			 if(i%35==0)
-			 setTimeout(function() {
-		       console.log('Waiting for 11000ms');
-		       			cb()
-		    }, 11000);
 		  })
 		  result.on('error', (err)=>{
 		  	console.log(err)
 		  	callback(null,cast_and_crew)
 		  })
 	}).end();
+			cb()
+},300)	
 	 
 	},(err)=>{
 		// All cast data has been retrieved till now

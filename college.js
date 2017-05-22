@@ -21,7 +21,7 @@
     var MovieModel = require('./models/movie.js') 
     var facebookLogin = require('./Routes/facebook-route.js')
     var watchlist = require('./Routes/watchlist.js')
-
+    var recommendations = require('./Routes/recommendations.js')
    
 
     mongoose.connect('mongodb://localhost/movie-recommender',(err)=>{
@@ -118,6 +118,7 @@
     app.use('/explore', movies)
     app.use('/search', search)
     app.use('/your_watchlist',watchlist)
+    app.use('/recommendations', recommendations)
 
     var port = process.env.PORT || 8080;
     app.set('port', port)

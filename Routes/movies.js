@@ -315,4 +315,16 @@ router.get('/upcoming/:page',(req,res)=>{
 	})
 })
 
+
+router.post('/movies/:movieId/rate', ensureAuthentication, (req, res)=>{
+	if(req.user.local){
+		var id = req.user.local.username
+	}
+	else{
+		var id = req.user.facebook.id
+	}
+	fs.appendFileSync('./ratings.json', `,{"userId":${id},"movieId": ${req.body.movieId},"rating": ${req.body.rating}}`)
+	//modify it res.end()
+})
+
 module.exports = router; 

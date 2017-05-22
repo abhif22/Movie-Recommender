@@ -2,6 +2,9 @@
 	var User = require('../models/user.js')
 	var Movie = require('../models/movie.js')
 	var async = require('async')
+	var http = require('http')
+	var fs = require('fs')
+
 	var ensureAuthentication = (req,res,next)=>{
 		if(req.isAuthenticated())
 			next()
@@ -10,6 +13,9 @@
 			return res.redirect('/users/login')
 		}
 	}
+
+	var links = fs.readFileSync('./linksProcessed.json', {encoding: 'utf8'})
+	links = JSON.parse(links)
 
 //Work on recommendation and recent Movies will be done here
 
@@ -42,9 +48,45 @@
 		},(res1, cb)=>{
 
 			//For Recommendations
-			cb(null, res1)
+			var data
+				http.request(`http://127.0.0.1:5000/get-recommendations/user/${req.user.local.username}`, function(response) {
+					  response.setEncoding('utf8');
+					  response.on('data', function (chunk) {
+					    // console.log('BODY: ' + chunk);
+					    data+=chunk
+					  });
+					  response.on('end',()=>{
+					  	// console.log('Data Received from Python')
+					  	// console.log(JSON.parse(data.substring(9)))
+					  	return cb(null, res1, JSON.parse(data.substring(9)))
+					  })
+					  response.on('error', (err)=>{
+					  	return cb(err)
+					  })
+				}).end();
 
-		}],(err, finalResult)=>{
+		},(recentMovies, recommendations, cb)=>{
+
+			var movies = []
+			async.each(recommendations, (recommendation, cb1)=>{
+				// console.log(recommendation.movieId)
+				// console.log('Movie Id '+links[recommendation.movieId].tmdbId)
+				Movie.findOne({id: links[recommendation.movieId].tmdbId}, (err, movieData)=>{
+					// console.log(movieData)
+					if(err){
+						return cb1()
+					}
+					movies.push(movieData)
+					return cb1()
+				})
+			}, (err)=>{
+				if(err){
+					return cb(err)
+				}
+				return cb(null, recentMovies, movies)
+			})
+
+		}],(err, finalResult, recommendations)=>{
 			if(err){
 				//Do this inside the callback which returns recent data
 				return res.render('index.ejs',{err: err})
