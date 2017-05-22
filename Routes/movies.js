@@ -33,7 +33,7 @@ router.get('/movies/:movie_id',(req,res)=>{
 	async.waterfall([(cb)=>{
 
 		Movie.findOne({id: movieId},(err,result)=>{
-					console.log('result',result)
+					// console.log('result',result)
 					if(!result){
 						console.log('Movie Not found in database')
 						console.info(err)
@@ -78,6 +78,44 @@ router.get('/movies/:movie_id',(req,res)=>{
 			}
 
 	}, (gotResultFromDB, result, cb)=>{
+
+		if(!gotResultFromDB){
+			//Save this movie in database since it was not present
+			var newMovie = new Movie({
+			backdrop_path: (result.backdrop_path|| ''),
+			budget: result.budget,
+			genres: result.genres,
+			homepage: (result.homepage|| ' '),
+			id: result.id,
+			imdb_id: result.imdb_id,
+			original_language: result.original_language,
+			original_title: result.original_title,
+			overview: result.overview,
+			poster_path: result.poster_path,
+			release_date: result.release_date,
+			revenue: result.revenue,
+			runtime: result.runtime,
+			status: result.status,
+			title: result.title,
+			tagline: result.tagline,
+			vote_average: result.vote_average,
+			vote_count: result.vote_count,
+			popularity: result.popularity,
+			belongs_to_collection: (result.belongs_to_collection||'')
+			})
+
+			newMovie.save((err, savedMovie)=>{
+				console.log(savedMovie)
+				if(err)
+					return cb(null, gotResultFromDB, result)
+				return cb(null, gotResultFromDB, result)
+			})
+		}
+		else{
+			cb(null, gotResultFromDB, result)
+		}
+
+	},(gotResultFromDB, result, cb)=>{
 
 		var movie_details = {}
 		//Add Cast, Crew, Similar Movies to movie_details
@@ -149,13 +187,13 @@ router.get('/movies/:movie_id',(req,res)=>{
 			if(req.user.recent_movies.length>=10){
 				//Pull from back
 				var pull_id = req.user.recent_movies[0].movieId
-				console.log('pull_id '+pull_id)
+				// console.log('pull_id '+pull_id)
 				User.findByIdAndUpdate(req.user._id,{$pull:{'recent_movies':{'movieId':pull_id}}},{safe: true, upsert: true},(err,updatedUser)=>{
 					if(err){
 						console.log(err)
 					}
 					else{
-						console.log('Successfully Pulled!')
+						// console.log('Successfully Pulled!')
 					}
 					return cb(null, gotResultFromDB, movie_details)
 				})
@@ -192,7 +230,7 @@ router.get('/movies/:movie_id',(req,res)=>{
 		if(err)
 			return res.render('movie_details',{err: err})
 		else{
-			console.log(finalResult)
+			// console.log(finalResult)
 			return res.render('movie_details',{movie_details: finalResult})
 		}
 	})

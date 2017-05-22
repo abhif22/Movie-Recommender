@@ -18,6 +18,7 @@
 		async.waterfall([(cb)=>{
 
 			var recent = req.user.recent_movies
+			console.log(recent)
 			var movieData = []
 			async.each(recent, (movie, cb1)=>{
 				Movie.findOne({'id': movie.movieId},(err, result)=>{
