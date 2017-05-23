@@ -12,7 +12,7 @@
       </div>
       <div class="col-md-9">
         <h1 class="hero__title" id="title" data-movie-id="<%=movie_details.movie.id%>" style="position: relative;left: -20%;top:-10%;"><%=movie_details.movie.original_title%></h1>
-         <span style="font-size: .3em;font-weight:bolder;position: absolute;left: 25%;top:32%;">User<br>Score</span>
+         <span style="font-size: .3em;font-weight:bolder;position: absolute;left: 25%;top:32%;" data-score="<%=movie_details.movie.popularity/10%>" id="score">User<br>Score</span>
         <div class="second circle" style="position: absolute;left: 15%;">
           <strong style="font-size: .3em;position: absolute;top:6px;"></strong>
         </div>
@@ -24,10 +24,10 @@
         <p class="movie-overview" style="position: relative;left: 5%;top:-10%;"><%=movie_details.movie.overview%></p>
         <h3 style="margin-top: 50px;margin-left: 50px;text-align: left;position: relative;left: 5%;top:-10%;">Featured Crew:</h3>
         <div id="crew">
-        <a class="crew" href=""><span class="badge badge-pill badge-default">James Wan (Director)</span></a>
-        <a class="crew" href=""><span class="badge badge-pill badge-default">Gary Thompson
- (Characters)</span></a>
-        <a class="crew" href=""><span class="badge badge-pill badge-default">Chris Morgan (Writer)</span></a>
+        <a class="crew" href=""><span class="badge badge-pill badge-default"><%=movie_details.crew.director%> (Director)</span></a>
+        <a class="crew" href=""><span class="badge badge-pill badge-default"><%=movie_details.crew.producer%> 
+ (Producer)</span></a>
+        <a class="crew" href=""><span class="badge badge-pill badge-default"><%=movie_details.crew.writer%> (Writer)</span></a>
         </div>
       </div>
     </div>

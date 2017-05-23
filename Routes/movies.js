@@ -149,7 +149,21 @@ router.get('/movies/:movie_id',(req,res)=>{
 			// console.log('CAST AND CREW')
 			// console.log(cast_and_crew)
 			movie_details.cast = cast_and_crew.cast
-			movie_details.crew= cast_and_crew.crew
+			var crew = {}
+			for(j=0;j<cast_and_crew.crew.length;j++){
+				var job = cast_and_crew.crew[j].job
+				if(job == 'Director'){
+					crew.director = cast_and_crew.crew[j].name
+				}
+				else if(job == 'Producer'){
+					crew.producer = cast_and_crew.crew[j].name
+				}
+				else if(job=='Writer'){
+					crew.writer = cast_and_crew.crew[j].name
+				}
+			}
+
+			movie_details.crew= crew
 			// console.log('NOW PROCESSING SIMILAR MOVIES')
 			if(gotResultFromDB){
 			var arr = []

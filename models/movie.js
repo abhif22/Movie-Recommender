@@ -50,7 +50,25 @@ var MovieSchema = new Schema({
 		poster_path: String,
 		backdrop_path: String,
 		name: String
-	}
+	}/*,
+	cast: [
+		{
+		character: String,
+		id: Number,
+		name: String,
+		profile_path: String
+		},
+		es_indexed: true
+	],
+	crew: [
+		{
+		job: String,
+		id: Number,
+		name: String,
+		profile_path: String
+		},
+		es_indexed: true
+	]*/
 })
 
 MovieSchema.plugin(mongoosastic,{

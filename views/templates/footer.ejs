@@ -14,7 +14,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
     <script type="text/javascript" src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.1/dist/circle-progress.js"></script>
     <script type="text/javascript">
-      $(document).ready(function(){
+      $(window).on('load',function(){
         //Unslider
         /*$('.banner').unslider({
            'autoplay': true,
@@ -76,7 +76,7 @@
 
         //Circular Progress Animation
           $('.second.circle').circleProgress({
-            value: 0.6,
+            value: $('#score').data('score'),
             size: 50,
             startAngle:-Math.PI/2,
             thickness: 5,
