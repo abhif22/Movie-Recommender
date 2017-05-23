@@ -24,8 +24,16 @@
 		async.waterfall([(cb)=>{
 
 			//For Recommendations
+			console.log('Fetching Recommendations for '+req.user.local.username)
+			console.log('Fetching Recommendations for '+req.user.facebook.email)
+			if(req.user.local.username){
+				var url = `http://127.0.0.1:5000/get-recommendations/user/${req.user.local.username}`
+			}
+			else{
+				var url = `http://127.0.0.1:5000/get-popular`
+			}
 			var data
-				http.request(`http://127.0.0.1:5000/get-recommendations/user/${req.user.local.username}`, function(response) {
+				http.request(url, function(response) {
 					  response.setEncoding('utf8');
 					  response.on('data', function (chunk) {
 					    // console.log('BODY: ' + chunk);
