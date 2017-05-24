@@ -26,12 +26,34 @@
 			//For Recommendations
 			console.log('Fetching Recommendations for '+req.user.local.username)
 			console.log('Fetching Recommendations for '+req.user.facebook.email)
+			var NoOfMoviesRated = req.user.rated.length
+			console.log('No of Movies Rated '+NoOfMoviesRated)
 			if(req.user.local.username){
-				var url = `http://127.0.0.1:5000/get-recommendations/user/${req.user.local.username}`
+				var id = req.user.local.id
+				if(NoOfMoviesRated>10){
+				var url = `http://127.0.0.1:5000/get-recommendations-from-interactions/user/${id}`
+				}
+				else{
+				var url = `http://127.0.0.1:5000/get-recommendations/user/${req.user.local.id}`					
+				}
 			}
 			else{
-				var url = `http://127.0.0.1:5000/get-popular`
+				var id = req.user.facebook.id
+				if(NoOfMoviesRated>10){
+				var url = `http://127.0.0.1:5000/get-recommendations-from-interactions/user/${id}`
+				}
+				else{
+				var url = `http://127.0.0.1:5000/get-popular`					
+				}
 			}
+			//Create csv for recommendations
+			var header = "userId,movieId,rating,timestamp\n"
+			var csvData = header
+			for(i=0;i<req.user.rated.length;i++){
+				var tmp = `${id},${req.user.rated[i].movieId},${req.user.rated[i].rating},${req.user.rated[i].timestamp}\n`
+				csvData+=tmp
+			}
+			fs.writeFileSync(`./my_vir_env/flask1/Project/ml-latest-small-for-practice/interactions_${id}.csv`, csvData)
 			var data
 				http.request(url, function(response) {
 					  response.setEncoding('utf8');

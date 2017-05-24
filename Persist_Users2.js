@@ -42,7 +42,8 @@
 								username: (user.UserID).toString(),
 								city: city,
 						        country: country,
-						        dob: dob
+						        dob: dob,
+						        id: (user.UserID).toString()
 								},
 						facebook: {
 

@@ -69,7 +69,8 @@
 								username: (users[key].UserID).toString(),
 								city: result.city,
 						        country: result.country,
-						        dob: result.dob
+						        dob: result.dob,
+						        id: (users[key].UserID).toString()
 								},
 						facebook: {
 

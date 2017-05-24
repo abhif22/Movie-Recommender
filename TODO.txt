@@ -10,7 +10,7 @@ Movie Details			DONE
 Favourite				DONE
 Watchlist				DONE
 LIVE SEARCH				DONE
-Recommendations			
+Recommendations			DONE
 Recent Views			DONE
 FB SHARE/LIKE			
 Show Movies By particular Director

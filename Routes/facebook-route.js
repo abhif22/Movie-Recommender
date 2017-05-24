@@ -1,6 +1,6 @@
 var router = require('express').Router()
 var User = require('../models/user.js')
-
+var fs = require('fs')
 var passport = require('passport')
 
 //LOgin for multiple user gives mongoose validation error
@@ -50,6 +50,7 @@ passport.use(new FacebookStrategy({
 						console.log(err)
 						throw err
 					}
+					fs.appendFileSync('./my_vir_env/flask1/Project/users.dat', `\n${newUser.facebook.id}::M::25::9::55455`)
 					return done(null,newUser)
 				})
 				console.log('New User has to be created')

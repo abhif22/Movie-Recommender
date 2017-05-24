@@ -5,6 +5,7 @@ var Movie = require('../models/movie.js')
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 var FacebookStrategy = require('passport-facebook').Strategy
+var fs = require('fs')
 
 var ensureAuthentication = (req,res,next)=>{
 		if(req.isAuthenticated())
@@ -35,7 +36,7 @@ router.post('/favorite',ensureAuthentication,(req,res)=>{
 			res.end(' Not Acknowledged!')
 		}
 		else{
-			console.log(updatedUser)
+			// console.log(updatedUser)
 			res.end('Acknowledged!')
 		}
 	})
@@ -47,7 +48,7 @@ router.post('/favorite',ensureAuthentication,(req,res)=>{
 			res.end(' Not Acknowledged!')
 		}
 		else{
-			console.log(updatedUser)
+			// console.log(updatedUser)
 			res.end('Acknowledged!')
 		}
 	})
@@ -68,14 +69,14 @@ router.post('/register',(req,res)=>{
 		dob = req.body.dob
 		city = req.body.city
 		country = req.body.country
-	console.log(name)
-	console.log(username)
-	console.log(email)
-	console.log(password1)
-	console.log(password2)
-	console.log(dob)
-	console.log(city)
-	console.log(country)
+	// console.log(name)
+	// console.log(username)
+	// console.log(email)
+	// console.log(password1)
+	// console.log(password2)
+	// console.log(dob)
+	// console.log(city)
+	// console.log(country)
 
 	req.checkBody('name','Name is Required').notEmpty()
 	req.checkBody('email','Email Address is Required').notEmpty()
@@ -124,8 +125,9 @@ router.post('/register',(req,res)=>{
 				User.createUser(newUser,(err,user)=>{
 					if(err)
 						throw err;
-					console.log(user)
+					// console.log(user)
 					req.flash('success_msg','You are Now Registered. Login Now')
+					fs.appendFileSync('./my_vir_env/flask1/Project/users.dat', `\n${newUser.local.id}::M::25::9::55455`)
 					return res.redirect('/users/login')
 				})
 			}

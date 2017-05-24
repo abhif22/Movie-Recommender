@@ -20,7 +20,7 @@ var userSchema = new Schema({
           city: String,
           country: String,
           dob: Date,
-          id: Number
+          id: String
       },
       facebook: {
         id: String,
@@ -30,7 +30,13 @@ var userSchema = new Schema({
         photo: String //Added New
       },
       favorites: [{movieId:Number}],
-      recent_movies: [{movieId:Number}]
+      recent_movies: [{movieId:Number}],
+      //The Movie id in rated will be for recommendations as was in MovieLens Original Dataset
+      rated: [{
+        movieId:Number,
+        rating: Number,
+        timestamp: Number
+      }] 
     })
 
 var User = mongoose.model('User',userSchema)
@@ -41,7 +47,7 @@ module.exports.createUser = (newUser, callback)=>{
     bcrypt.hash(newUser.local.password, salt, function(err, hash) {
         // Store hash in your password DB. 
         newUser.local.password = hash
-        console.log(hash)
+        // console.log(hash)
         newUser.save(callback)
     });
 });

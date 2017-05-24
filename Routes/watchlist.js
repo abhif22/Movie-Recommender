@@ -18,7 +18,7 @@ var ensureAuthentication = (req,res,next)=>{
 	//In view for your_watchlist loop and display all results as on upcoming page
 var req
  getFavourites = (cb)=>{
- 	console.log(req.user)
+ 	// console.log(req.user)
 	/*if(req.user.facebook!=null){
 		console.log('Fetching Watchlist by Facebook')
 		User.findOne({'facebook.email': req.user.facebook.email},(err, result)=>{

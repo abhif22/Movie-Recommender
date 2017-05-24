@@ -8,6 +8,7 @@
 
 	movieDetails = fs.readFileSync('movieDetails16Sorted.json', {encoding: 'utf8'})
 	movies = JSON.parse(movieDetails)
+	console.log('Movies read from file')
 	mongoose.connect('mongodb://localhost/movie-recommender',(err)=>{
         if(err){
             console.log('Connection to MongoDB Failed!')
@@ -20,32 +21,7 @@
 
     var db = mongoose.connection
 
-
-/*	var moviesArray = [];
-	for(key in movies){
-		// console.log(movies[key])
-		var a = []
-		json = JSON.parse(JSON.stringify(movies[key].belongs_to_collection).split('"backdrop_path":').join('"collection_backdrop_path":'));
-		// document.write(JSON.stringify(json));
-		movies[key].belongs_to_collection = JSON.stringify(json);
-		movies[key].id = Math.round(movies[key].id)
-		a.push(movies[key])
-		moviesArray.push(a)
-	}*/
-// // console.log(moviesArray[145])
-// var tmp = JSON.stringify({movies: moviesArray},null, 4)
-// // console.log(tmp)
-// fs.writeFileSync('./puremoviesdata.json',tmp)
-	// console.log(movies[1])
-
-	// console.log(movies[1])
-
-	// Generate the Schema object.
-	// var MovieSchema = new mongoose.Schema(generator.convert(movies));
-	// console.log("MOVIE SCHEMA")
-	// console.log(MovieSchema)
-	// var Movie = mongoose.model('Movie',MovieSchema)
-	// module.exports = Movie
+ //NOTE BEFORE SAVING REMOVE CREW FROM SCHEMA
 	var i=0;
 
 		for(key in movies){
@@ -72,7 +48,8 @@
 			vote_average: movies[key].vote_average,
 			vote_count: movies[key].vote_count,
 			popularity: movies[key].popularity,
-			belongs_to_collection: movies[key].belongs_to_collection
+			belongs_to_collection: movies[key].belongs_to_collection,
+			cast: []
 			})
 
 			var request = new Promise(function(resolve, reject) {

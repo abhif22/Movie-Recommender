@@ -1,5 +1,8 @@
 
 
+Use Persist_Movies2.js
+Use Persist_Users2.js  // Takes Time to Calculate Hash
+
 
 pip install virtualenv
 mkdir test_vir_env

@@ -5,18 +5,19 @@ var User = require('../models/user.js')
 var http = require('http')
 var fs = require('fs')
 var async = require('async')
+var unixTimestamp = require("unix-timestamp")
 
 // movieDetails = fs.readFileSync('./Movie_Details_Upto_2016.json')
 // movieDetails = JSON.parse(movieDetails)
 
 SimilarMovies = fs.readFileSync('./ProcessedSimilarMoviesData.json', {encoding: 'utf8'})
 SimilarMovies = JSON.parse(SimilarMovies)
-console.log('SIMILAR MOVIES READ!')
+// console.log('SIMILAR MOVIES READ!')
 
 var links = fs.readFileSync('./linksProcessed.json', {encoding: 'utf8'})
 links = JSON.parse(links)
 
-console.log('Links READ!')
+// console.log('Links READ!')
 
 var ensureAuthentication = (req,res,next)=>{
 		if(req.isAuthenticated())
@@ -33,14 +34,14 @@ var wasFav = 0
 router.get('/movies/:movie_id',(req,res)=>{
 	// console.log(req.user)
 	var movieId = req.params.movie_id
-	console.log('Movie Id is '+movieId)
+	// console.log('Movie Id is '+movieId)
 
 	async.waterfall([(cb)=>{
 
 		Movie.findOne({id: movieId},(err,result)=>{
 					// console.log('result',result)
 					if(!result){
-						console.log('Movie Not found in database')
+						// console.log('Movie Not found in database')
 						console.info(err)
 						return cb(null, false, movieId)
 						}
@@ -62,7 +63,7 @@ router.get('/movies/:movie_id',(req,res)=>{
 
 			if(!gotResultFromDB){
 				//Get Data from TMDB
-				console.log('Getting Movie Data from TMDB')
+				// console.log('Getting Movie Data from TMDB')
 				var data
 				http.request(`http://api.themoviedb.org/3/movie/${result}?api_key=068e3f59f93f5c2aa67262e9e9f3db73`, function(response) {
 					  response.setEncoding('utf8');
@@ -110,7 +111,7 @@ router.get('/movies/:movie_id',(req,res)=>{
 			})
 
 			newMovie.save((err, savedMovie)=>{
-				console.log(savedMovie)
+				// console.log(savedMovie)
 				if(err)
 					return cb(null, gotResultFromDB, result)
 				return cb(null, gotResultFromDB, result)
@@ -127,7 +128,10 @@ router.get('/movies/:movie_id',(req,res)=>{
 		//For Cast and Crew make a TMDB API Call
 		movie_details.wasFav = wasFav
 		movie_details.movie = result
-
+		// console.log(movie_details.movie.cast)
+		movie_details.movie.cast = []
+		if(gotResultFromDB||movie_details.movie.cast.length==0){
+			// console.log('Fetching Cast Data form API')
 		var data
 		http.request(`http://api.themoviedb.org/3/movie/${movieId}/casts?api_key=068e3f59f93f5c2aa67262e9e9f3db73`, function(response) {
 			  response.setEncoding('utf8');
@@ -136,16 +140,21 @@ router.get('/movies/:movie_id',(req,res)=>{
 			    data+=chunk
 			  });
 			  response.on('end',()=>{
-			  	return cb(null, gotResultFromDB, movie_details, data)
+			  	// console.log(data)
+			  	return cb(null, gotResultFromDB, movie_details, JSON.parse(data.substring(9)))
 			  })
 			  response.on('error', (err)=>{
 			  	return cb(err)
 			  })
 		}).end();
+	}
+	else{
+		return cb(null, gotResultFromDB, movie_details, false)
+	}
 	}, (gotResultFromDB, movie_details, cast_and_crew, cb)=>{
-			cast_and_crew = cast_and_crew.substring(9)
+
+		if(cast_and_crew){
 				   // console.log(result)
-			cast_and_crew = JSON.parse(cast_and_crew)
 			// console.log('CAST AND CREW')
 			// console.log(cast_and_crew)
 			movie_details.cast = cast_and_crew.cast
@@ -164,8 +173,25 @@ router.get('/movies/:movie_id',(req,res)=>{
 			}
 
 			movie_details.crew= crew
-			// console.log('NOW PROCESSING SIMILAR MOVIES')
-			if(gotResultFromDB){
+
+			//Now Save this cast and crew to mongodb one by one insert all cast data
+			Movie.findOneAndUpdate({id: movie_details.movie.id}, {$set: { cast: movie_details.cast, crew: movie_details.crew}},(err, updatedMovie)=>{
+				if(err){
+					console.log(err)
+				}
+				return cb(null,gotResultFromDB, movie_details)
+			})
+		}
+		else{
+			movie_details.cast = movie_details.movie.cast
+			movie_details.crew = movie_details.movie.crew
+			return cb(null,gotResultFromDB, movie_details)
+		}
+			
+
+	}, (gotResultFromDB, movie_details, cb)=>{
+
+		if(gotResultFromDB){
 			var arr = []
 			let similarMoviesIds = SimilarMovies[movieId]
 			// console.log('SIMILAR MOVIES IDS')
@@ -195,7 +221,7 @@ router.get('/movies/:movie_id',(req,res)=>{
 			cb(null, gotResultFromDB, movie_details)
 		}
 
-	},(gotResultFromDB, movie_details, cb)=>{
+	} ,(gotResultFromDB, movie_details, cb)=>{
 
 		if(req.user&&gotResultFromDB){
 			/*var tmp = req.user.recent_movies
@@ -304,11 +330,11 @@ router.get('/popular', (req, res)=>{
 			if(err){
 				//Do this inside the callback which returns recent data
 				console.log(err)
-				console.log('Called with Error!')
+				// console.log('Called with Error!')
 				// return res.render('recommendations.ejs',{err: err})
 			}
-			// console.log(recommendations)
-			console.log('Calling without err')
+			console.log(recommendations)
+			// console.log('Calling without err')
 			// return res.json(recommendations)
 			return res.render('popular.ejs', {data: recommendations})
 
@@ -393,13 +419,52 @@ router.get('/upcoming/:page',(req,res)=>{
 
 
 router.post('/movies/:movieId/rate', ensureAuthentication, (req, res)=>{
-	if(req.user.local){
-		var id = req.user.local.username
+	// console.log(req.user.local.username)
+	// console.log(Object.keys(req.user.local).length)
+	// console.log(req.user.facebook)
+	async.waterfall([(cb)=>{
+	if(req.user.local.username){
+		var id = req.user.local.id
 	}
 	else{
 		var id = req.user.facebook.id
 	}
-	fs.appendFileSync('./ratings.json', `,{"userId":${id},"movieId": ${req.body.movieId},"rating": ${req.body.rating}}`)
+	console.log('ID '+id)
+	var timestamp = Math.round(unixTimestamp.now())
+	var mid
+	for(key in links){
+		if(links[key].tmdbId==req.body.movieId)
+			mid =  links[key].movieId
+	}
+
+	fs.appendFileSync('./my_vir_env/flask1/Project/ml-latest-small-for-practice/ratings.csv', `\n${id},${mid},${req.body.rating},${timestamp}`)
+	
+	return cb(null,mid,timestamp)
+
+	},(mid, timestamp, cb)=>{
+
+		if(req.user.local.username){
+		var id = req.user.local.id
+		User.findOneAndUpdate({'local.id': id}, {$push: {rated: {movieId: mid, rating: req.body.rating, timestamp: timestamp}}}, {safe: true, upsert: true}, (err, updatedUser)=>{
+			if(err){
+				console.log(err)
+			}
+			return cb(null)
+		})
+	}
+	else{
+		var id = req.user.facebook.id
+		User.findOneAndUpdate({'facebook.id': id}, {$push: {rated: {movieId: mid, rating: req.body.rating, timestamp: timestamp}}}, {safe: true, upsert: true}, (err, updatedUser)=>{
+			if(err){
+				console.log(err)
+			}
+			return cb(null)
+		})
+	}
+		
+	}], (err)=>{
+		return res.end('Acknowledged')
+	})
 	//modify it res.end()
 	//Send a post request to Flask with userId,movieId,rating,timestamp and
 	//append it to the Ratings SFrame
