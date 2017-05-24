@@ -2,7 +2,8 @@
 
 1. Remove this part from models/movie.js
 
-	```  ,
+	``` 
+	,
 	crew: {
 			director:{
 				name: {
